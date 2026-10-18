@@ -63,6 +63,10 @@ const contactModal = document.querySelector("#contact-modal");
 const contactDialog = document.querySelector("#contact-dialog");
 let contactLastFocus = null;
 
+const factoryContactModal = document.querySelector("#factory-contact-modal");
+const factoryContactDialog = document.querySelector("#factory-contact-dialog");
+let factoryContactLastFocus = null;
+
 function contactFocusable() {
   if (!contactDialog) return [];
   return [...contactDialog.querySelectorAll("a[href], button:not([disabled])")];
@@ -81,6 +85,26 @@ function closeContact() {
   contactModal.setAttribute("hidden", "");
   document.body.classList.remove("modal-open");
   contactLastFocus?.focus();
+}
+
+function factoryContactFocusable() {
+  if (!factoryContactDialog) return [];
+  return [...factoryContactDialog.querySelectorAll("a[href], button:not([disabled])")];
+}
+
+function openFactoryContact() {
+  if (!factoryContactModal || !factoryContactDialog || !factoryContactModal.hasAttribute("hidden")) return;
+  factoryContactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  factoryContactModal.removeAttribute("hidden");
+  document.body.classList.add("modal-open");
+  factoryContactDialog.focus();
+}
+
+function closeFactoryContact() {
+  if (!factoryContactModal || factoryContactModal.hasAttribute("hidden")) return;
+  factoryContactModal.setAttribute("hidden", "");
+  document.body.classList.remove("modal-open");
+  factoryContactLastFocus?.focus();
 }
 
 const catalogModal = document.querySelector("#catalog-modal");
@@ -198,10 +222,16 @@ document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof Element)) return;
 
+  if (target.closest("[data-open-factory-contact]")) {
+    event.preventDefault();
+    openFactoryContact();
+    return;
+  }
   if (target.closest("[data-open-contact]")) {
     event.preventDefault();
     openContact();
   }
+  if (target.closest("[data-close-factory-contact]")) closeFactoryContact();
   if (target.closest("[data-close-contact]")) closeContact();
 
   const catalogOpener = target.closest("[data-open-catalog]");
@@ -217,6 +247,20 @@ document.addEventListener("click", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    const quoteModal = document.querySelector("#quote-modal");
+    if (quoteModal && !quoteModal.hasAttribute("hidden")) {
+      return;
+    }
+    if (factoryContactModal && !factoryContactModal.hasAttribute("hidden")) {
+      event.preventDefault();
+      closeFactoryContact();
+      return;
+    }
+    if (contactModal && !contactModal.hasAttribute("hidden")) {
+      event.preventDefault();
+      closeContact();
+      return;
+    }
     if (lightbox && !lightbox.hasAttribute("hidden")) {
       event.preventDefault();
       closePhotos();
@@ -228,7 +272,6 @@ document.addEventListener("keydown", (event) => {
       return;
     }
     setMenuOpen(false);
-    closeContact();
     return;
   }
 
@@ -247,7 +290,7 @@ document.addEventListener("keydown", (event) => {
 
   if (event.key !== "Tab") return;
 
-  const dialog = [photoDialog, catalogDialog, contactDialog].find((node) => {
+  const dialog = [photoDialog, catalogDialog, factoryContactDialog, contactDialog].find((node) => {
     if (!node) return false;
     const wrap = node.closest("[hidden]");
     return !wrap;
@@ -258,7 +301,9 @@ document.addEventListener("keydown", (event) => {
       ? photoFocusable()
       : dialog === catalogDialog
         ? catalogFocusable()
-        : contactFocusable();
+        : dialog === factoryContactDialog
+          ? factoryContactFocusable()
+          : contactFocusable();
   if (!nodes.length) return;
   const first = nodes[0];
   const last = nodes[nodes.length - 1];
