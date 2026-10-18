@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="css/styles.css" />
     <script src="js/site.js" defer></script>
   </head>
-  <body>
+  <body class="home-page">
     <a class="skip" href="#content">Skip to content</a>
     <div class="float-nav">
       <button class="menu-float" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-      <button class="help-float" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Need More Help?</button>
+      <button class="help-float" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">More Help</button>
       <nav id="site-nav" class="menu-panel" aria-label="Primary" hidden>
         <a href="./" aria-current="page">Furniture Catalogs</a>
         <a href="whyfoshan/">Why Foshan</a>
@@ -25,12 +25,17 @@
     <main id="content" class="page">
       <header class="intro home-intro">
         <div class="wrap">
-          <p class="home-brand">InsideFoshan.com</p>
-          <h1>Go Deeper</h1>
-          <p class="home-sub">A practical guide to discovering high-quality home furniture factories in Foshan.</p>
+          <div class="home-hero">
+            <img class="home-hero-photo" src="images/hero-shot2.jpg" alt="A furniture-market avenue in Foshan, photographed on a visit, with a hand-lettered Go Guangdong mark in the corner." width="800" height="532" />
+            <div class="home-hero-copy">
+              <p class="home-brand">InsideFoshan.com</p>
+              <h1>Go Deeper</h1>
+              <p class="home-sub">A practical guide to discovering high-quality home furniture factories in Foshan.</p>
+            </div>
+          </div>
           <div class="home-copy">
-            <p>Want to go beyond the videos and get an <strong>insider’s perspective</strong>? Explore a curated selection of high-quality furniture factories, with <strong>actual catalogs and photographs</strong> taken in their showrooms.</p>
-            <p>This independent guide is based on our visits to Foshan over the past 12 months, focusing on <strong>designer-inspired furniture for the home</strong>.</p>
+            <p>Want to go beyond the videos and get an <strong>insider’s perspective</strong>? Explore a curated selection of quality furniture factories, with <strong>actual catalogs and photographs</strong> taken in their showrooms.</p>
+            <p>This independent guide is from recent Foshan visits, focusing on <strong>designer-inspired furniture for the home</strong>.</p>
           </div>
           <p class="home-note">Bookmark this page and check back as we add more discoveries.</p>
         </div>
@@ -50,7 +55,7 @@
                   <img class="resource-thumb" src="images/broad-01-living.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Italian modern living</span>
-              <span class="resource-note">Inspired by Minotti, Flexform, Poliform, and B&amp;B Italia.</span>
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 88 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -66,7 +71,7 @@
                   <img class="resource-thumb" src="images/broad-01-dining.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Italian modern dining</span>
-              
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 27 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -82,7 +87,7 @@
                   <img class="resource-thumb" src="images/broad-01-bedroom.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Italian modern bedroom</span>
-              
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 28 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -98,7 +103,7 @@
                   <img class="resource-thumb" src="images/broad-01-fashion.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Fashion house</span>
-              <span class="resource-note">Inspired by Fendi, Hermès, Louis Vuitton, Versace, Visionnaire, and Bentley.</span>
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 92 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -114,7 +119,7 @@
                   <img class="resource-thumb" src="images/broad-01-natural.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Natural modern and eclectic</span>
-              <span class="resource-note">Inspired by Restoration Hardware, Ligne Roset, and Roche Bobois.</span>
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 95 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -151,7 +156,7 @@
                   <img class="resource-thumb" src="images/broad-02-collection.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Collections 2025</span>
-              
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 87 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -167,7 +172,7 @@
                   <img class="resource-thumb" src="images/broad-02-rustic.jpg" alt="" width="112" height="112" />
             <span class="resource-main">
               <span class="resource-title">Modern rustic collection 2026</span>
-              <span class="resource-note">Inspired by Liaigre.</span>
+              <span class="resource-detail"></span>
               <span class="resource-meta">PDF · 22 MB</span>
             </span>
                   <span class="visually-hidden">, catalog details</span>
@@ -411,17 +416,21 @@
     </main>
     <footer class="site-footer">
       <div class="wrap">
+        <section class="footer-note" aria-labelledby="footer-note-title">
+          <h2 id="footer-note-title">A note from the China Furniture Guy</h2>
+          <p>I’ve spent the past 12 months exploring Foshan’s furniture scene. Inside Foshan is where I share the factories, collections, and showroom discoveries that caught my attention.</p>
+        </section>
         <div class="footer-row">
           <nav class="footer-nav" aria-label="Footer">
             <a href="./" aria-current="page">Furniture Catalogs</a>
         <a href="whyfoshan/">Why Foshan</a>
         <a href="howtosource/">How to Shop</a>
           </nav>
-          <button class="help-btn" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Need More Help?</button>
+          <button class="help-btn" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">More Help?</button>
         </div>
       </div>
     </footer>
-    <div id="contact-modal" class="modal" hidden>
+    <div id="contact-modal" class="modal modal--dock" hidden>
       <button class="modal-backdrop" type="button" data-close-contact tabindex="-1" aria-label="Close dialog"></button>
       <div id="contact-dialog" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title" aria-describedby="contact-desc" tabindex="-1">
         <button class="modal-close icon-close" type="button" data-close-contact aria-label="Close"><span aria-hidden="true">X</span></button>

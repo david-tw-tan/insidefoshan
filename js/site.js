@@ -1,3 +1,8 @@
+document.querySelectorAll("[data-open-catalog]").forEach((opener) => {
+  const detailEl = opener.querySelector(".resource-detail");
+  if (detailEl) detailEl.textContent = opener.dataset.detail || "";
+});
+
 const menuToggle = document.querySelector(".menu-float");
 const siteNav = document.querySelector("#site-nav");
 
@@ -17,6 +22,42 @@ menuToggle?.addEventListener("click", () => {
 siteNav?.addEventListener("click", (event) => {
   if (event.target instanceof HTMLAnchorElement) setMenuOpen(false);
 });
+
+const OVERLAY_MS = 180;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function revealOverlay(root) {
+  if (!root) return;
+  root.removeAttribute("hidden");
+  if (prefersReducedMotion()) {
+    root.classList.add("overlay-open");
+    return;
+  }
+  root.classList.remove("overlay-open");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      root.classList.add("overlay-open");
+    });
+  });
+}
+
+function dismissOverlay(root, done) {
+  if (!root || root.hasAttribute("hidden")) return;
+  if (prefersReducedMotion()) {
+    root.classList.remove("overlay-open");
+    root.setAttribute("hidden", "");
+    done?.();
+    return;
+  }
+  root.classList.remove("overlay-open");
+  window.setTimeout(() => {
+    root.setAttribute("hidden", "");
+    done?.();
+  }, OVERLAY_MS);
+}
 
 const contactModal = document.querySelector("#contact-modal");
 const contactDialog = document.querySelector("#contact-dialog");
@@ -67,18 +108,19 @@ function openCatalog(opener) {
   download.href = opener.dataset.href || "#";
   download.setAttribute("download", opener.dataset.download || "");
   catalogLastFocus = opener;
-  catalogModal.removeAttribute("hidden");
+  revealOverlay(catalogModal);
   document.body.classList.add("modal-open");
   catalogDialog.focus();
 }
 
 function closeCatalog() {
   if (!catalogModal || catalogModal.hasAttribute("hidden")) return;
-  catalogModal.setAttribute("hidden", "");
-  document.body.classList.remove("modal-open");
-  const img = catalogDialog?.querySelector(".catalog-modal-img");
-  if (img) img.removeAttribute("src");
-  catalogLastFocus?.focus();
+  dismissOverlay(catalogModal, () => {
+    document.body.classList.remove("modal-open");
+    const img = catalogDialog?.querySelector(".catalog-modal-img");
+    if (img) img.removeAttribute("src");
+    catalogLastFocus?.focus();
+  });
 }
 
 const lightbox = document.querySelector("#photo-lightbox");
@@ -127,22 +169,23 @@ function openPhotos(opener) {
   photoIndex = 0;
   photoLastFocus = opener;
   renderPhoto();
-  lightbox.removeAttribute("hidden");
+  revealOverlay(lightbox);
   document.body.classList.add("lightbox-open");
   photoDialog.focus();
 }
 
 function closePhotos() {
   if (!lightbox || lightbox.hasAttribute("hidden")) return;
-  lightbox.setAttribute("hidden", "");
-  document.body.classList.remove("lightbox-open");
-  const img = photoDialog?.querySelector(".lightbox-img");
-  if (img) {
-    img.removeAttribute("src");
-    img.alt = "";
-  }
-  photoLastFocus?.focus();
-  photoSet = null;
+  dismissOverlay(lightbox, () => {
+    document.body.classList.remove("lightbox-open");
+    const img = photoDialog?.querySelector(".lightbox-img");
+    if (img) {
+      img.removeAttribute("src");
+      img.alt = "";
+    }
+    photoLastFocus?.focus();
+    photoSet = null;
+  });
 }
 
 function stepPhoto(delta) {
