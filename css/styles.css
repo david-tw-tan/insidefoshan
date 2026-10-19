@@ -125,6 +125,130 @@ h2,
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.float-nav-menu-wrap {
+  position: relative;
+}
+
+.factory-jump {
+  display: none;
+  position: relative;
+  justify-self: center;
+  min-width: 0;
+}
+
+.factory-jump-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  margin: 0.42rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.factory-jump-toggle:hover,
+.factory-jump-toggle:focus-visible {
+  color: var(--ink);
+}
+
+.factory-jump-toggle:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+}
+
+.factory-jump-caret {
+  font-size: 0.72em;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.factory-jump-panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  width: max-content;
+  min-width: min(18.5rem, calc(100vw - 2.5rem));
+  max-width: min(22rem, calc(100vw - 2.5rem));
+  max-height: min(16.5rem, 52vh);
+  margin: 0;
+  padding: 0.3rem 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 0 10px 28px rgba(28, 25, 21, 0.14);
+}
+
+.factory-jump-panel[hidden] {
+  display: none !important;
+}
+
+.factory-jump-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.42rem 0.75rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.factory-jump-item:hover,
+.factory-jump-item:focus-visible {
+  background: var(--paper-deep);
+}
+
+.factory-jump-idx {
+  flex-shrink: 0;
+  min-width: 1.15rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.factory-jump-name {
+  min-width: 0;
+  white-space: normal;
+}
+
+@media (max-width: 719px) {
+  .home-page .float-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    column-gap: 0.35rem;
+  }
+
+  .home-page.factory-jump-visible .factory-jump {
+    display: block;
+    justify-self: center;
+  }
+
+  .home-page .help-float {
+    justify-self: end;
+  }
 }
 
 .menu-float {

@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/styles.css?v=footer-pad-2" />
+    <link rel="stylesheet" href="css/styles.css?v=factory-jump-3" />
     <!-- showroom-manifest:auto -->
     <script>
     window.SHOWROOM_PHOTOS = {
@@ -357,14 +357,20 @@
   <body class="home-page">
     <a class="skip" href="#content">Skip to content</a>
     <div class="float-nav">
-      <button class="menu-float" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <div class="float-nav-menu-wrap">
+        <button class="menu-float" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav id="site-nav" class="menu-panel" aria-label="Primary" hidden>
+          <a href="./" aria-current="page">Furniture Catalogs</a>
+          <a href="whyfoshan/">Why Foshan?</a>
+          <a href="howtosource/">Sourcing Tips</a>
+          <a href="pricing/">Pricing Examples</a>
+        </nav>
+      </div>
+      <div class="factory-jump">
+        <button id="factory-jump-toggle" class="factory-jump-toggle" type="button" aria-expanded="false" aria-controls="factory-jump-panel" aria-haspopup="menu">Factories<span class="factory-jump-caret" aria-hidden="true"> ▾</span></button>
+        <div id="factory-jump-panel" class="factory-jump-panel" role="menu" aria-labelledby="factory-jump-toggle" hidden></div>
+      </div>
       <button class="help-float" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">More Help</button>
-      <nav id="site-nav" class="menu-panel" aria-label="Primary" hidden>
-        <a href="./" aria-current="page">Furniture Catalogs</a>
-        <a href="whyfoshan/">Why Foshan?</a>
-        <a href="howtosource/">Sourcing Tips</a>
-        <a href="pricing/">Pricing Examples</a>
-      </nav>
     </div>
     <main id="content" class="page">
       <header class="intro home-intro">
@@ -1031,6 +1037,6 @@
         </figure>
       </div>
     </div>
-    <script src="js/site.js?v=showroom-gallery-title"></script>
+    <script src="js/site.js?v=factory-jump-3"></script>
   </body>
 </html>

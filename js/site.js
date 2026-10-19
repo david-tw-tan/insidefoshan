@@ -118,8 +118,27 @@ bindShowroomGalleryButtons();
 const menuToggle = document.querySelector(".menu-float");
 const siteNav = document.querySelector("#site-nav");
 
+let factoryJumpToggle = null;
+let factoryJumpPanel = null;
+
+function setFactoryJumpOpen(open) {
+  if (!factoryJumpToggle || !factoryJumpPanel) return;
+  factoryJumpToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  if (open) {
+    factoryJumpPanel.removeAttribute("hidden");
+    if (menuToggle && siteNav) {
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "Menu";
+      siteNav.setAttribute("hidden", "");
+    }
+  } else {
+    factoryJumpPanel.setAttribute("hidden", "");
+  }
+}
+
 function setMenuOpen(open) {
   if (!menuToggle || !siteNav) return;
+  if (open) setFactoryJumpOpen(false);
   menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
   menuToggle.textContent = open ? "Close" : "Menu";
   if (open) siteNav.removeAttribute("hidden");
@@ -499,10 +518,81 @@ document.addEventListener("click", (event) => {
   if (target.closest("[data-photo-next]")) stepPhoto(1);
 });
 
+function initFactoryJump() {
+  factoryJumpToggle = document.querySelector("#factory-jump-toggle");
+  factoryJumpPanel = document.querySelector("#factory-jump-panel");
+  if (!(factoryJumpToggle instanceof HTMLButtonElement) || !(factoryJumpPanel instanceof HTMLElement)) return;
+
+  const articles = [...document.querySelectorAll("article.factory[id]")];
+  if (!articles.length) return;
+
+  articles.forEach((article, index) => {
+    const heading = article.querySelector(".factory-title");
+    if (!heading) return;
+    const clone = heading.cloneNode(true);
+    clone.querySelector(".factory-count")?.remove();
+    const name = clone.textContent.replace(/\s+/g, " ").trim();
+    if (!name) return;
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "factory-jump-item";
+    item.setAttribute("role", "menuitem");
+    item.dataset.factoryJump = `#${article.id}`;
+    item.innerHTML = `<span class="factory-jump-idx">${index + 1}</span><span class="factory-jump-name"></span>`;
+    item.querySelector(".factory-jump-name").textContent = name;
+    factoryJumpPanel.appendChild(item);
+  });
+
+  factoryJumpToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const open = factoryJumpToggle.getAttribute("aria-expanded") === "true";
+    setFactoryJumpOpen(!open);
+  });
+
+  factoryJumpPanel.addEventListener("click", (event) => {
+    const item = event.target instanceof Element ? event.target.closest("[data-factory-jump]") : null;
+    if (!(item instanceof HTMLButtonElement)) return;
+    const target = item.dataset.factoryJump || "";
+    const section = target ? document.querySelector(target) : null;
+    if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+    setFactoryJumpOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (factoryJumpToggle.getAttribute("aria-expanded") !== "true") return;
+    if (event.target.closest(".factory-jump")) return;
+    setFactoryJumpOpen(false);
+  });
+
+  const intro = document.querySelector(".home-intro");
+  if (!(intro instanceof HTMLElement)) return;
+
+  const syncFactoryJumpVisibility = (entry) => {
+    const show = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+    document.body.classList.toggle("factory-jump-visible", show);
+    if (!show) setFactoryJumpOpen(false);
+  };
+
+  const introObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry) syncFactoryJumpVisibility(entry);
+    },
+    { threshold: [0, 0.01] },
+  );
+  introObserver.observe(intro);
+}
+
+initFactoryJump();
 initPricingGate();
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    if (factoryJumpToggle?.getAttribute("aria-expanded") === "true") {
+      setFactoryJumpOpen(false);
+      factoryJumpToggle.focus();
+      return;
+    }
     const quoteModal = document.querySelector("#quote-modal");
     if (quoteModal && !quoteModal.hasAttribute("hidden")) {
       return;
