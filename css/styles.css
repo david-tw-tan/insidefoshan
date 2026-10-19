@@ -1187,7 +1187,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  align-items: baseline;
+  align-items: center;
   margin-top: 1.25rem;
   padding: 0.85rem 0.9rem;
   border: 1px solid var(--ink);
@@ -1195,7 +1195,24 @@ h1 {
   font-weight: 600;
 }
 
-.contact-link span:last-child {
+.contact-link-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.contact-link-icon {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex-shrink: 0;
+}
+
+.contact-link:hover .contact-link-icon,
+.contact-link:focus-visible .contact-link-icon {
+  opacity: 1;
+}
+
+.contact-link-number {
   font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
@@ -2235,6 +2252,19 @@ button.resource:focus-visible {
 
 .footer-note p + p {
   margin-top: 0.85rem;
+}
+
+.footer-note a {
+  color: var(--paper);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+.footer-note a:hover,
+.footer-note a:focus-visible {
+  color: var(--footer-gold);
 }
 
 @media (min-width: 720px) {

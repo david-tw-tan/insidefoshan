@@ -204,9 +204,18 @@ function contactFocusable() {
   return [...contactDialog.querySelectorAll("a[href], button:not([disabled])")];
 }
 
-function openContact() {
+function contactTitleForOpener(opener) {
+  if (!(opener instanceof HTMLElement)) return "Need more help?";
+  const label = opener.textContent.replace(/\s+/g, " ").trim();
+  if (opener.classList.contains("help-float") || label === "More Help") return "Need more help?";
+  return "Got questions?";
+}
+
+function openContact(opener) {
   if (!contactModal || !contactDialog || !contactModal.hasAttribute("hidden")) return;
   contactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  const titleEl = contactDialog.querySelector("#contact-title");
+  if (titleEl) titleEl.textContent = contactTitleForOpener(opener);
   contactModal.removeAttribute("hidden");
   document.body.classList.add("modal-open");
   contactDialog.focus();
@@ -498,7 +507,7 @@ document.addEventListener("click", (event) => {
   }
   if (target.closest("[data-open-contact]")) {
     event.preventDefault();
-    openContact();
+    openContact(target.closest("[data-open-contact]"));
   }
   if (target.closest("[data-close-factory-contact]")) closeFactoryContact();
   if (target.closest("[data-close-contact]")) closeContact();
