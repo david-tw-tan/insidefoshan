@@ -312,6 +312,18 @@ function getShowroomImages(key) {
   return images.length ? images : null;
 }
 
+function getFactoryGalleryTitle(opener) {
+  const article = opener.closest("article.factory");
+  const heading = article?.querySelector(".factory-title");
+  if (heading) {
+    const clone = heading.cloneNode(true);
+    clone.querySelector(".factory-count")?.remove();
+    const text = clone.textContent.replace(/\s+/g, " ").trim();
+    if (text) return text;
+  }
+  return opener.dataset.title || "Showroom photos";
+}
+
 function setPhotoLoading(loading) {
   const frame = getPhotoDialog()?.querySelector(".lightbox-frame");
   if (frame) frame.classList.toggle("is-loading", loading);
@@ -405,10 +417,13 @@ function openPhotos(opener) {
     window.alert("Showroom photos could not be loaded. Try a hard refresh. If this continues, the photo files may not be published yet.");
     return;
   }
-  photoSet = { title: opener.dataset.title || "", images };
+  const galleryTitle = getFactoryGalleryTitle(opener);
+  photoSet = { title: galleryTitle, images };
   photoIndex = 0;
   photoLastFocus = opener;
   photoIgnoreCloseUntil = Date.now() + 500;
+  const titleEl = photoDialog.querySelector(".lightbox-title");
+  if (titleEl) titleEl.textContent = galleryTitle;
   startSequentialPhotoPreload(images);
   revealOverlay(lightbox);
   lightbox.classList.add("overlay-open");
@@ -424,11 +439,13 @@ function closePhotos() {
   stopSequentialPhotoPreload();
   dismissOverlay(lightbox, () => {
     document.body.classList.remove("lightbox-open");
-    const img = getPhotoDialog()?.querySelector(".lightbox-img");
+    const dialog = getPhotoDialog();
+    const img = dialog?.querySelector(".lightbox-img");
     if (img) {
       img.removeAttribute("src");
       img.alt = "";
     }
+    dialog?.querySelector(".lightbox-title")?.replaceChildren();
     setPhotoLoading(false);
     photoLastFocus?.focus();
     photoSet = null;
