@@ -905,6 +905,10 @@ h1 {
   .site-footer {
     padding-top: 2.65rem;
   }
+
+  .home-page .site-footer {
+    margin-top: 1.75rem;
+  }
 }
 
 .footer-row {
