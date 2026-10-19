@@ -3,6 +3,26 @@ document.querySelectorAll("[data-open-catalog]").forEach((opener) => {
   if (detailEl) detailEl.textContent = opener.dataset.detail || "";
 });
 
+const SHOWROOM_GALLERY_LABEL = "View actual showroom photos";
+
+function syncShowroomGalleryLabels() {
+  const manifest = window.SHOWROOM_PHOTOS;
+  if (!manifest || typeof manifest !== "object") return;
+  document.querySelectorAll("[data-open-photos]").forEach((btn) => {
+    if (!(btn instanceof HTMLElement)) return;
+    const list = manifest[btn.dataset.openPhotos || ""];
+    if (!Array.isArray(list) || !list.length) return;
+    const n = list.length;
+    const label = btn.querySelector(".factory-gallery-label");
+    if (label) label.textContent = SHOWROOM_GALLERY_LABEL;
+    const hint = btn.querySelector(".visually-hidden");
+    if (hint) hint.textContent = `Open actual showroom photo gallery, ${n} photos`;
+  });
+}
+
+syncShowroomGalleryLabels();
+bindShowroomGalleryButtons();
+
 const menuToggle = document.querySelector(".menu-float");
 const siteNav = document.querySelector("#site-nav");
 
@@ -38,10 +58,11 @@ function revealOverlay(root) {
   }
   root.classList.remove("overlay-open");
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      root.classList.add("overlay-open");
-    });
+    root.classList.add("overlay-open");
   });
+  window.setTimeout(() => {
+    if (!root.hasAttribute("hidden")) root.classList.add("overlay-open");
+  }, 320);
 }
 
 function dismissOverlay(root, done) {
@@ -147,66 +168,176 @@ function closeCatalog() {
   });
 }
 
-const lightbox = document.querySelector("#photo-lightbox");
-const photoDialog = document.querySelector("#photo-dialog");
+function getPhotoLightbox() {
+  return document.querySelector("#photo-lightbox");
+}
+
+function getPhotoDialog() {
+  return document.querySelector("#photo-dialog");
+}
+
 let photoSet = null;
 let photoIndex = 0;
 let photoLastFocus = null;
+let photoLoadToken = 0;
+let photoIgnoreCloseUntil = 0;
+let photoPreloadRun = null;
+const photoLoadCache = new Map();
+
+function bindShowroomGalleryButtons() {
+  document.querySelectorAll("[data-open-photos]").forEach((btn) => {
+    if (!(btn instanceof HTMLElement) || btn.dataset.showroomBound === "1") return;
+    btn.dataset.showroomBound = "1";
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      openPhotos(btn);
+    });
+  });
+}
 
 function photoFocusable() {
+  const photoDialog = getPhotoDialog();
   if (!photoDialog) return [];
   return [...photoDialog.querySelectorAll("button:not([disabled])")];
 }
 
-function renderPhoto() {
-  if (!photoSet || !photoDialog) return;
-  const img = photoDialog.querySelector(".lightbox-img");
-  const titleEl = photoDialog.querySelector(".lightbox-title");
-  const countEl = photoDialog.querySelector(".lightbox-count");
-  const prev = photoDialog.querySelector("[data-photo-prev]");
-  const next = photoDialog.querySelector("[data-photo-next]");
-  if (!img || !titleEl || !countEl || !prev || !next) return;
-  const photo = photoSet.images[photoIndex];
-  img.src = photo.src;
-  img.alt = photo.alt;
-  img.width = photo.width;
-  img.height = photo.height;
-  titleEl.textContent = photoSet.title;
-  const total = photoSet.images.length;
-  countEl.textContent = `${photoIndex + 1} of ${total}`;
-  prev.toggleAttribute("disabled", total < 2);
-  next.toggleAttribute("disabled", total < 2);
+function getShowroomManifest(key) {
+  const manifest = window.SHOWROOM_PHOTOS;
+  if (!manifest || typeof manifest !== "object") return null;
+  const list = manifest[key];
+  return Array.isArray(list) && list.length ? list : null;
 }
 
-function openPhotos(opener) {
-  if (!lightbox || !photoDialog) return;
-  const template = document.getElementById(opener.dataset.openPhotos || "");
-  if (!(template instanceof HTMLTemplateElement)) return;
+function getShowroomImages(key) {
+  const fromManifest = getShowroomManifest(key);
+  if (fromManifest) return fromManifest;
+  const template = document.getElementById(key);
+  if (!(template instanceof HTMLTemplateElement)) return null;
   const images = [...template.content.querySelectorAll("img")].map((img) => ({
     src: img.getAttribute("src") || "",
     alt: img.getAttribute("alt") || "",
-    width: Number(img.getAttribute("width")) || 0,
-    height: Number(img.getAttribute("height")) || 0,
   }));
-  if (!images.length) return;
+  return images.length ? images : null;
+}
+
+function setPhotoLoading(loading) {
+  const frame = getPhotoDialog()?.querySelector(".lightbox-frame");
+  if (frame) frame.classList.toggle("is-loading", loading);
+}
+
+function loadPhotoEntry(entry) {
+  const src = entry.src || "";
+  if (!src) return Promise.reject(new Error("missing src"));
+  const cached = photoLoadCache.get(src);
+  if (cached) return cached;
+  const promise = new Promise((resolve, reject) => {
+    const loader = new Image();
+    loader.onload = () => {
+      resolve({
+        src,
+        alt: entry.alt || "",
+        width: loader.naturalWidth,
+        height: loader.naturalHeight,
+      });
+    };
+    loader.onerror = () => reject(new Error(`failed to load ${src}`));
+    loader.src = src;
+  });
+  photoLoadCache.set(src, promise);
+  return promise;
+}
+
+function stopSequentialPhotoPreload() {
+  photoPreloadRun = null;
+}
+
+function startSequentialPhotoPreload(images) {
+  stopSequentialPhotoPreload();
+  const run = { id: Symbol("photo-preload"), images };
+  photoPreloadRun = run;
+  (async () => {
+    for (const entry of images) {
+      if (photoPreloadRun !== run) return;
+      await loadPhotoEntry(entry).catch(() => {});
+    }
+  })();
+}
+
+async function renderPhoto() {
+  const photoDialog = getPhotoDialog();
+  if (!photoSet || !photoDialog) return;
+  const img = photoDialog.querySelector(".lightbox-img");
+  const countEl = photoDialog.querySelector(".lightbox-count");
+  const prev = photoDialog.querySelector("[data-photo-prev]");
+  const next = photoDialog.querySelector("[data-photo-next]");
+  if (!img || !countEl || !prev || !next) return;
+  const total = photoSet.images.length;
+  const token = ++photoLoadToken;
+  countEl.textContent = `Image ${photoIndex + 1} of ${total}`;
+  prev.toggleAttribute("disabled", total < 2);
+  next.toggleAttribute("disabled", total < 2);
+  setPhotoLoading(true);
+  try {
+    const loaded = await loadPhotoEntry(photoSet.images[photoIndex]);
+    if (token !== photoLoadToken) return;
+    img.src = loaded.src;
+    img.alt = loaded.alt;
+    img.removeAttribute("width");
+    img.removeAttribute("height");
+    if (typeof img.decode === "function") {
+      await img.decode().catch(() => {});
+    }
+    if (token !== photoLoadToken) return;
+  } catch {
+    if (token !== photoLoadToken) return;
+    img.removeAttribute("src");
+    img.alt = "";
+    countEl.textContent = "Image unavailable";
+  } finally {
+    if (token === photoLoadToken) setPhotoLoading(false);
+  }
+}
+
+function openPhotos(opener) {
+  const lightbox = getPhotoLightbox();
+  const photoDialog = getPhotoDialog();
+  if (!lightbox || !photoDialog) {
+    window.alert(
+      "Showroom gallery could not open on this page. Use the homepage (Furniture Catalogs) over a local web server—not by opening the HTML file directly—and hard-refresh (Shift+Reload) if you recently updated the site.",
+    );
+    return;
+  }
+  const key = opener.dataset.openPhotos || "";
+  const images = getShowroomImages(key);
+  if (!images) {
+    window.alert("Showroom photos could not be loaded. Try a hard refresh. If this continues, the photo files may not be published yet.");
+    return;
+  }
   photoSet = { title: opener.dataset.title || "", images };
   photoIndex = 0;
   photoLastFocus = opener;
-  renderPhoto();
+  photoIgnoreCloseUntil = Date.now() + 500;
+  startSequentialPhotoPreload(images);
   revealOverlay(lightbox);
+  lightbox.classList.add("overlay-open");
   document.body.classList.add("lightbox-open");
   photoDialog.focus();
+  renderPhoto();
 }
 
 function closePhotos() {
+  const lightbox = getPhotoLightbox();
   if (!lightbox || lightbox.hasAttribute("hidden")) return;
+  photoLoadToken += 1;
+  stopSequentialPhotoPreload();
   dismissOverlay(lightbox, () => {
     document.body.classList.remove("lightbox-open");
-    const img = photoDialog?.querySelector(".lightbox-img");
+    const img = getPhotoDialog()?.querySelector(".lightbox-img");
     if (img) {
       img.removeAttribute("src");
       img.alt = "";
     }
+    setPhotoLoading(false);
     photoLastFocus?.focus();
     photoSet = null;
   });
@@ -238,9 +369,13 @@ document.addEventListener("click", (event) => {
   if (catalogOpener instanceof HTMLElement) openCatalog(catalogOpener);
   if (target.closest("[data-close-catalog]")) closeCatalog();
 
-  const photoOpener = target.closest("[data-open-photos]");
-  if (photoOpener instanceof HTMLElement) openPhotos(photoOpener);
-  if (target.closest("[data-close-lightbox]")) closePhotos();
+  if (target.closest("[data-close-lightbox]")) {
+    if (Date.now() < photoIgnoreCloseUntil) {
+      event.preventDefault();
+      return;
+    }
+    closePhotos();
+  }
   if (target.closest("[data-photo-prev]")) stepPhoto(-1);
   if (target.closest("[data-photo-next]")) stepPhoto(1);
 });
@@ -261,6 +396,7 @@ document.addEventListener("keydown", (event) => {
       closeContact();
       return;
     }
+    const lightbox = getPhotoLightbox();
     if (lightbox && !lightbox.hasAttribute("hidden")) {
       event.preventDefault();
       closePhotos();
@@ -275,6 +411,8 @@ document.addEventListener("keydown", (event) => {
     return;
   }
 
+  const lightbox = getPhotoLightbox();
+  const photoDialog = getPhotoDialog();
   if (lightbox && !lightbox.hasAttribute("hidden") && photoDialog) {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -290,14 +428,14 @@ document.addEventListener("keydown", (event) => {
 
   if (event.key !== "Tab") return;
 
-  const dialog = [photoDialog, catalogDialog, factoryContactDialog, contactDialog].find((node) => {
+  const dialog = [getPhotoDialog(), catalogDialog, factoryContactDialog, contactDialog].find((node) => {
     if (!node) return false;
     const wrap = node.closest("[hidden]");
     return !wrap;
   });
   if (!dialog) return;
   const nodes =
-    dialog === photoDialog
+    dialog === getPhotoDialog()
       ? photoFocusable()
       : dialog === catalogDialog
         ? catalogFocusable()
