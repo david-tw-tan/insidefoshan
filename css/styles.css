@@ -2038,6 +2038,7 @@ button.resource:focus-visible {
   --sans: Inter, "Helvetica Neue", "Segoe UI", sans-serif;
   --label: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
   --catalog-title: color-mix(in srgb, var(--accent) 52%, var(--ink));
+  --factory-gallery: color-mix(in srgb, var(--accent) 40%, var(--muted));
 }
 
 .home-page .home-intro h1,
@@ -2071,6 +2072,24 @@ button.resource:focus-visible {
   font-size: 1.05rem;
   line-height: 1.2;
   letter-spacing: -0.015em;
+}
+
+.home-page .factory-gallery-link {
+  color: var(--factory-gallery);
+}
+
+.home-page .factory-gallery-glyph {
+  color: var(--factory-gallery);
+}
+
+.home-page .factory-gallery-link:hover,
+.home-page .factory-gallery-link:focus-visible {
+  color: var(--catalog-title);
+}
+
+.home-page .factory-gallery-link:hover .factory-gallery-glyph,
+.home-page .factory-gallery-link:focus-visible .factory-gallery-glyph {
+  color: inherit;
 }
 
 .home-page .resource-detail {
