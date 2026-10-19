@@ -772,9 +772,15 @@ h1 {
 
 .site-footer {
   margin-top: 2.75rem;
-  padding: 1.75rem 0 2.65rem;
+  padding: 2rem 0 2.65rem;
   background: var(--ink);
   color: var(--paper);
+}
+
+@media (max-width: 719px) {
+  .site-footer {
+    padding-top: 2.65rem;
+  }
 }
 
 .footer-row {
@@ -1974,6 +1980,10 @@ button.resource:focus-visible {
   font-weight: 500;
 }
 
+.home-intro-note-detail {
+  color: var(--faint);
+}
+
 .home-hero {
   position: relative;
   display: flex;
@@ -2068,8 +2078,14 @@ button.resource:focus-visible {
 .footer-note {
   max-width: 34rem;
   margin-bottom: 1.25rem;
-  padding-bottom: 1.35rem;
+  padding-bottom: 1.85rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 719px) {
+  .footer-note {
+    padding-bottom: 2.1rem;
+  }
 }
 
 .footer-note h2 {
