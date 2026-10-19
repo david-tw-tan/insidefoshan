@@ -8,15 +8,15 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../css/fonts.css" />
-    <link rel="stylesheet" href="../css/styles.css" />
-    <script src="../js/site.js?v=showroom-20260319" defer></script>
+    <link rel="stylesheet" href="../css/styles.css?v=pricing-type-1" />
+    <script src="../js/site.js?v=pricing-gate-4" defer></script>
     <script src="../js/pricing-examples.js" defer></script>
   </head>
   <body class="pricing-page">
     <a class="skip" href="#content">Skip to content</a>
     <div class="float-nav">
       <button class="menu-float" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-      <button class="help-float" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Need Help?</button>
+      <button class="help-float" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">More Help</button>
       <nav id="site-nav" class="menu-panel" aria-label="Primary" hidden>
         <a href="../">Furniture Catalogs</a>
         <a href="../whyfoshan/">Why Foshan?</a>
@@ -95,31 +95,36 @@
           </div>
         </section>
 
-        <section class="pricing-section" aria-labelledby="cta-title">
-          <h2 id="cta-title">Ready to Explore Your Options?</h2>
-          <p class="pricing-section-lead">Browse furniture catalogs to explore available collections, or get in touch to discuss contacting suitable factories.</p>
-          <div class="next-steps pricing-cta">
-            <a href="../">
-              <span class="kicker">Next</span>
-              <span class="next-title">Browse Furniture Catalogs</span>
-              <span class="next-text">Explore selected manufacturers, catalogs, and showroom photographs on the homepage.</span>
-            </a>
-            <button class="pricing-cta-contact" type="button" data-open-factory-contact aria-haspopup="dialog" aria-controls="factory-contact-dialog">
-              <span class="kicker">Contact</span>
-              <span class="next-title">Contact Factories</span>
-              <span class="next-text">Request an introduction to factories on this site (serious inquiries).</span>
-            </button>
-          </div>
-        </section>
-
         <p class="pricing-disclosure">All prices are indicative, in RMB, and ex-factory unless otherwise stated. Price ranges reflect selected factory pricing for quality, designer-inspired residential furniture. Actual prices and landed costs vary by product specifications, order quantity, destination, and shipping arrangements.</p>
+        <div class="next-steps">
+          <a href="../">
+            <span class="kicker">Next</span>
+            <span class="next-title">Explore Furniture Catalogs</span>
+            <span class="next-text">Browse curated factories, and see their catalogs and showroom photos.</span>
+          </a>
+          <a href="../whyfoshan/">
+            <span class="kicker">Next</span>
+            <span class="next-title">Why Foshan?</span>
+            <span class="next-text">Context on the market and why so many manufacturers cluster here.</span>
+          </a>
+          <a href="../howtosource/">
+            <span class="kicker">Next</span>
+            <span class="next-title">Sourcing Tips</span>
+            <span class="next-text">Practical guidance on evaluating products and approaching the process.</span>
+          </a>
+        </div>
+        <div class="page-help-line page-help-line--stack">
+          <button class="text-btn" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Get in Touch</button>
+          <button class="text-btn" type="button" data-open-factory-contact aria-haspopup="dialog" aria-controls="factory-contact-dialog">Want a Factory Intro?</button>
+        </div>
       </div>
     </main>
     <footer class="site-footer">
       <div class="wrap">
         <section class="footer-note" aria-labelledby="footer-note-title">
           <h2 id="footer-note-title">Hi, from China Furniture Guy!</h2>
-          <p>I’m David. I’ve been exploring Foshan’s furniture scene since late 2025. Inside Foshan is where I share the factories, collections, and showroom discoveries that caught my attention.</p>
+          <p>I’ve been exploring Foshan’s furniture scene since late 2025. This site is where I share the factories, collections, and showroom discoveries that caught my attention.</p>
+          <p>Foshan’s having a moment, and info is messy. Hopefully this insider view helps with your journey.</p>
         </section>
         <div class="footer-stack">
           <nav class="footer-nav" aria-label="Footer">
@@ -127,7 +132,6 @@
             <a href="../whyfoshan/">Why Foshan?</a>
             <a href="../howtosource/">Sourcing Tips</a>
             <a href="../pricing/" aria-current="page">Pricing Examples</a>
-            <button type="button" class="footer-nav-contact" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">Get in Touch</button>
           </nav>
           <p class="footer-masthead">InsideFoshan.com</p>
         </div>
@@ -138,12 +142,18 @@
       <div id="contact-dialog" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title" aria-describedby="contact-desc" tabindex="-1">
         <button class="modal-close icon-close" type="button" data-close-contact aria-label="Close"><span aria-hidden="true">X</span></button>
         <h2 id="contact-title">Need more help?</h2>
-        <p id="contact-desc">Get in touch if you want help finding the right information, a factory introduction, or assistance with sourcing. You can also keep browsing on your own.</p>
-        <a class="contact-link" href="https://wa.me/8618500507027" target="_blank" rel="noopener noreferrer">
+        <p id="contact-desc"><span class="contact-desc-lead">Get in touch</span> if you have a question about this guide, Foshan’s furniture market, or sourcing in general. Sourcing from China doesn’t have to be intimidating. You’re also welcome to keep browsing on your own.</p>
+        <a class="contact-link" href="https://wa.me/8618500507027?text=Hi%20%E2%80%94%20I%27m%20messaging%20from%20Inside%20Foshan.%20" target="_blank" rel="noopener noreferrer">
           <span>WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></span>
           <span>+86 185 0050 7027</span>
         </a>
-        <p class="email-line">Prefer email? <a href="mailto:david.tan@wildchina.com?subject=InsideFoshan%20enquiry">david.tan@wildchina.com</a></p>
+        <p class="contact-wa-note">Please mention Inside Foshan when you message.</p>
+        <div class="email-line">
+          <details class="email-disclosure">
+            <summary>Prefer email? Click here.</summary>
+            <p class="email-reveal"><a href="mailto:david.tan@wildchina.com?subject=InsideFoshan%20enquiry">david.tan@wildchina.com</a></p>
+          </details>
+        </div>
       </div>
     </div>
     <div id="factory-contact-modal" class="modal modal--dock" hidden>
@@ -151,12 +161,18 @@
       <div id="factory-contact-dialog" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="factory-contact-title" aria-describedby="factory-contact-desc" tabindex="-1">
         <button class="modal-close icon-close" type="button" data-close-factory-contact aria-label="Close"><span aria-hidden="true">X</span></button>
         <h2 id="factory-contact-title">Interested in contacting a factory?</h2>
-        <p id="factory-contact-desc">I’m happy to connect you with the furniture factories on this site. Serious inquiries only, please. These factories are busy and very selective about new inquiries, so I like to learn a little about your project before making an introduction. Tell me a little about what you’re looking for, and we’ll take it from there.</p>
-        <a class="contact-link" href="https://wa.me/8618500507027" target="_blank" rel="noopener noreferrer">
+        <p id="factory-contact-desc">I’m happy to connect you with the furniture factories on this site. <strong>Serious inquiries only, please.</strong> These factories are very busy and selective about new inquiries, and they operate at different price points. To match you with the right factory, tell me a little about your project before I make an introduction.</p>
+        <a class="contact-link" href="https://wa.me/8618500507027?text=Hi%20%E2%80%94%20Inside%20Foshan%20factory%20introduction.%20" target="_blank" rel="noopener noreferrer">
           <span>WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></span>
           <span>+86 185 0050 7027</span>
         </a>
-        <p class="email-line">Prefer email? <a href="mailto:david.tan@wildchina.com?subject=InsideFoshan%20factory%20introduction">david.tan@wildchina.com</a></p>
+        <p class="contact-wa-note">Please mention Inside Foshan when you message.</p>
+        <div class="email-line">
+          <details class="email-disclosure">
+            <summary>Prefer email? Click here.</summary>
+            <p class="email-reveal"><a href="mailto:david.tan@wildchina.com?subject=InsideFoshan%20factory%20introduction">david.tan@wildchina.com</a></p>
+          </details>
+        </div>
       </div>
     </div>
     <div id="quote-modal" class="modal catalog-modal quote-modal" hidden>

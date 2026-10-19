@@ -1,9 +1,101 @@
+/** Flip to true when Pricing Examples is ready to publish (removes coming-soon gate). */
+const PRICING_SECTION_LIVE = false;
+
+function pricingPreviewAllowed() {
+  return PRICING_SECTION_LIVE || new URLSearchParams(window.location.search).has("preview");
+}
+
+function isPricingPathname(pathname) {
+  return /\/pricing\/?$/i.test(pathname) || /\/pricing\/index\.html$/i.test(pathname);
+}
+
+function linkHrefIsPricing(href) {
+  if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return false;
+  try {
+    const url = new URL(href, window.location.href);
+    if (url.origin !== window.location.origin) return false;
+    return isPricingPathname(url.pathname);
+  } catch {
+    return false;
+  }
+}
+
+function catalogsHomeHref() {
+  const path = window.location.pathname;
+  if (path.includes("/whyfoshan/") || path.includes("/howtosource/") || path.includes("/pricing/")) {
+    return "../";
+  }
+  return "./";
+}
+
+let pricingSoonModal = null;
+let pricingSoonLastFocus = null;
+let pricingSoonDirectVisit = false;
+
+function ensurePricingSoonModal() {
+  if (pricingSoonModal) return pricingSoonModal;
+
+  const root = document.createElement("div");
+  root.id = "pricing-soon-modal";
+  root.className = "modal modal--center";
+  root.setAttribute("hidden", "");
+  root.innerHTML = `
+    <button class="modal-backdrop" type="button" data-close-pricing-soon tabindex="-1" aria-label="Close"></button>
+    <div id="pricing-soon-dialog" class="modal-panel pricing-soon-panel" role="alertdialog" aria-modal="true" aria-labelledby="pricing-soon-desc" tabindex="-1">
+      <p id="pricing-soon-desc">Our pricing page is under construction. Please check back soon.</p>
+      <button type="button" class="help-btn pricing-soon-ok" data-close-pricing-soon>Got it</button>
+    </div>
+  `;
+
+  root.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (event.target.closest("[data-close-pricing-soon]")) closePricingSoon();
+  });
+
+  document.body.appendChild(root);
+  pricingSoonModal = root;
+  return root;
+}
+
+function openPricingSoon({ fromDirectVisit = false } = {}) {
+  const root = ensurePricingSoonModal();
+  const dialog = root.querySelector("#pricing-soon-dialog");
+  if (!dialog || !root.hasAttribute("hidden")) return;
+  pricingSoonDirectVisit = fromDirectVisit;
+  pricingSoonLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  root.removeAttribute("hidden");
+  document.body.classList.add("modal-open");
+  const ok = root.querySelector(".pricing-soon-ok");
+  if (ok instanceof HTMLElement) ok.focus();
+  else dialog.focus();
+}
+
+function closePricingSoon() {
+  if (!pricingSoonModal || pricingSoonModal.hasAttribute("hidden")) return;
+  pricingSoonModal.setAttribute("hidden", "");
+  document.body.classList.remove("modal-open");
+  if (pricingSoonDirectVisit) {
+    window.location.href = catalogsHomeHref();
+    return;
+  }
+  pricingSoonLastFocus?.focus();
+  pricingSoonDirectVisit = false;
+}
+
+function initPricingGate() {
+  if (pricingPreviewAllowed()) return;
+
+  if (isPricingPathname(window.location.pathname)) {
+    openPricingSoon({ fromDirectVisit: true });
+  }
+}
+
 document.querySelectorAll("[data-open-catalog]").forEach((opener) => {
   const detailEl = opener.querySelector(".resource-detail");
   if (detailEl) detailEl.textContent = opener.dataset.detail || "";
 });
 
-const SHOWROOM_GALLERY_LABEL = "View actual showroom photos";
+const SHOWROOM_GALLERY_LABEL = "See real showroom photos";
 
 function syncShowroomGalleryLabels() {
   const manifest = window.SHOWROOM_PHOTOS;
@@ -353,6 +445,16 @@ document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof Element)) return;
 
+  if (!pricingPreviewAllowed()) {
+    const pricingLink = target.closest("a[href]");
+    if (pricingLink instanceof HTMLAnchorElement && linkHrefIsPricing(pricingLink.getAttribute("href") || "")) {
+      event.preventDefault();
+      setMenuOpen(false);
+      openPricingSoon({ fromDirectVisit: false });
+      return;
+    }
+  }
+
   if (target.closest("[data-open-factory-contact]")) {
     event.preventDefault();
     openFactoryContact();
@@ -380,10 +482,17 @@ document.addEventListener("click", (event) => {
   if (target.closest("[data-photo-next]")) stepPhoto(1);
 });
 
+initPricingGate();
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     const quoteModal = document.querySelector("#quote-modal");
     if (quoteModal && !quoteModal.hasAttribute("hidden")) {
+      return;
+    }
+    if (pricingSoonModal && !pricingSoonModal.hasAttribute("hidden")) {
+      event.preventDefault();
+      closePricingSoon();
       return;
     }
     if (factoryContactModal && !factoryContactModal.hasAttribute("hidden")) {

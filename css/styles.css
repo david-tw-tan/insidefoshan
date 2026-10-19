@@ -272,9 +272,9 @@ a.help-btn {
 }
 
 .home-intro h1 {
-  max-width: 12ch;
+  max-width: none;
   font-weight: 700;
-  font-size: clamp(2.8rem, 9vw, 4.4rem);
+  font-size: clamp(2.35rem, 8vw, 3.75rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-transform: none;
@@ -710,10 +710,16 @@ h1 {
 
 .next-steps {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
   margin-top: 2rem;
-  max-width: 52rem;
+  max-width: 56rem;
+}
+
+.next-steps .kicker {
+  color: var(--accent);
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-weight: 600;
 }
 
 .next-steps a {
@@ -744,6 +750,22 @@ h1 {
 
 .page-help-line {
   margin-top: 1.25rem;
+}
+
+.page-help-line--stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.page-help-line--stack .text-btn {
+  display: block;
+}
+
+.home-page-note strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 /* Footer */
@@ -904,6 +926,49 @@ h1 {
   place-items: end center;
 }
 
+.modal--center {
+  place-items: center;
+  padding: 1.75rem 1.25rem;
+}
+
+.pricing-soon-panel {
+  width: min(100%, 18.5rem);
+  max-width: calc(100vw - 2.75rem);
+  margin: 0;
+  padding: 1.5rem 1.35rem 1.35rem;
+  text-align: center;
+}
+
+.pricing-soon-panel p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.pricing-soon-ok {
+  margin-top: 1.15rem;
+  min-width: 6.75rem;
+  justify-content: center;
+  font-weight: 600;
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.pricing-soon-ok:hover,
+.pricing-soon-ok:focus-visible {
+  background: color-mix(in srgb, var(--ink) 88%, #fff);
+  border-color: color-mix(in srgb, var(--ink) 88%, #fff);
+  color: var(--paper);
+}
+
+.pricing-soon-ok:active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .catalog-modal,
 .lightbox {
   place-items: center;
@@ -980,6 +1045,10 @@ h1 {
   max-width: 34rem;
 }
 
+.contact-desc-lead {
+  font-weight: 600;
+}
+
 .contact-link {
   display: flex;
   justify-content: space-between;
@@ -1003,8 +1072,38 @@ h1 {
   color: var(--paper);
 }
 
+.contact-wa-note {
+  margin-top: 0.65rem;
+  max-width: 34rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
 .email-line {
   margin-top: 0.9rem;
+}
+
+.email-disclosure summary {
+  cursor: pointer;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.92rem;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.email-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.email-disclosure summary:hover,
+.email-disclosure summary:focus-visible {
+  color: var(--accent);
+}
+
+.email-reveal {
+  margin: 0.45rem 0 0;
 }
 
 .prose-block a {
@@ -1265,6 +1364,24 @@ h1 {
 
 .factory:has(.factory-gallery) .resources > li:last-child .resource {
   border-bottom: 0;
+}
+
+.home-outro {
+  margin-top: 3.25rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--ink);
+}
+
+.home-page-note {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.home-outro .next-steps {
+  margin-top: 1.75rem;
 }
 
 .home-closing {
@@ -1789,7 +1906,28 @@ button.resource:focus-visible {
 }
 
 .home-page .home-intro .home-copy {
-  margin-top: 1.15rem;
+  margin-top: 1.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.home-page .home-intro .home-copy p {
+  line-height: 1.55;
+}
+
+.home-page .home-intro .home-copy p + p {
+  margin-top: 1rem;
+}
+
+.home-page .home-intro-note {
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.home-intro-note-mark {
+  color: var(--accent);
+  font-weight: 500;
 }
 
 .home-hero {
@@ -1798,7 +1936,7 @@ button.resource:focus-visible {
   align-items: center;
   width: 100vw;
   max-width: 100vw;
-  min-height: 12rem;
+  min-height: 15.5rem;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow: hidden;
@@ -1833,46 +1971,54 @@ button.resource:focus-visible {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 38rem;
-  padding: 2rem 1rem 2rem;
+  max-width: min(20.5rem, 72vw);
+  padding: 2.15rem 1rem 2.35rem;
   color: #fff;
 }
 
-.home-page .home-hero .home-brand,
 .home-page .factory-group--labeled .section-label {
   font-family: var(--label);
   font-weight: 500;
   letter-spacing: 0.04em;
 }
 
-.home-page .home-hero .home-brand {
-  margin-bottom: 0.55rem;
-  color: #ecd06a;
-  font-size: clamp(0.84rem, 2.75vw, 1rem);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.45),
-    0 2px 18px rgba(0, 0, 0, 0.35);
-}
-
-.home-page .home-hero h1 {
-  max-width: 12ch;
+.home-page .home-hero .home-title {
+  max-width: none;
   color: #fff;
-  line-height: 0.98;
+  line-height: 0.95;
   text-shadow:
     0 2px 32px rgba(0, 0, 0, 0.42),
     0 1px 4px rgba(0, 0, 0, 0.28);
 }
 
+.home-page .home-hero .home-title-line {
+  display: block;
+}
+
 .home-page .home-hero .home-sub {
-  max-width: min(16.75rem, 58vw);
-  margin-top: 0.65rem;
-  color: rgba(255, 255, 255, 0.92);
+  max-width: 100%;
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.94);
   font-family: var(--sans);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 2px 14px rgba(0, 0, 0, 0.32);
+}
+
+@media (max-width: 719px) {
+  .home-hero::after {
+    background: linear-gradient(
+      90deg,
+      rgba(28, 25, 21, 0.88) 0%,
+      rgba(28, 25, 21, 0.72) 34%,
+      rgba(28, 25, 21, 0.4) 50%,
+      rgba(28, 25, 21, 0.12) 64%,
+      rgba(28, 25, 21, 0) 78%
+    );
+  }
 }
 
 .footer-note {
@@ -1883,7 +2029,7 @@ button.resource:focus-visible {
 }
 
 .footer-note h2 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.75rem;
   color: var(--footer-gold);
   font-family: var(--display);
   font-size: clamp(1.35rem, 4vw, 1.55rem);
@@ -1899,18 +2045,40 @@ button.resource:focus-visible {
   line-height: 1.45;
 }
 
+.footer-note p + p {
+  margin-top: 0.85rem;
+}
+
 @media (min-width: 720px) {
+  .footer-note {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .footer-nav {
+    grid-template-columns: repeat(4, max-content);
+    row-gap: 0;
+    column-gap: clamp(0.9rem, 2.2vw, 2rem);
+  }
+
+  .footer-masthead {
+    margin-top: 1.1rem;
+    padding-top: 1.05rem;
+  }
+
   .home-hero {
     min-height: min(17rem, 38vh);
   }
 
   .home-hero-copy {
+    max-width: 38rem;
     padding: 2.35rem max(1rem, calc((100vw - var(--wrap)) / 2 + 1rem)) 2.35rem;
   }
 
   .home-page .home-hero .home-sub {
-    max-width: min(36rem, 88%);
+    max-width: min(36rem, 100%);
     font-size: 1.125rem;
+    line-height: 1.42;
   }
 
   .home-page .factory-count {
@@ -1942,7 +2110,7 @@ button.resource:focus-visible {
   align-items: center;
   width: 100vw;
   max-width: 100vw;
-  min-height: 11.5rem;
+  min-height: 15.5rem;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow: hidden;
@@ -1975,30 +2143,35 @@ button.resource:focus-visible {
 .whyfoshan-intro-hero__copy {
   position: relative;
   z-index: 2;
-  padding: 3.25rem 1rem 1.65rem;
+  width: 100%;
+  max-width: min(20.5rem, 72vw);
+  padding: 2.15rem 1rem 2.35rem;
   color: #fff;
 }
 
-.whyfoshan-intro-hero__copy .kicker {
-  margin-bottom: 0.55rem;
-  color: #ecd06a;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+.whyfoshan-page .whyfoshan-hero-title {
+  max-width: none;
+  font-size: clamp(2.35rem, 8vw, 3.75rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow:
+    0 2px 32px rgba(0, 0, 0, 0.42),
+    0 1px 4px rgba(0, 0, 0, 0.28);
+}
+
+.whyfoshan-page .whyfoshan-hero-sub {
+  max-width: 100%;
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.94);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.45;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.45),
-    0 2px 16px rgba(0, 0, 0, 0.35);
-}
-
-.whyfoshan-intro-hero__copy h1 {
-  max-width: 14em;
-  font-size: clamp(2.35rem, 7.5vw, 3.65rem);
-  font-weight: 400;
-  line-height: 0.98;
-  letter-spacing: -0.025em;
-  color: #fff;
-  text-shadow:
-    0 2px 28px rgba(0, 0, 0, 0.42),
-    0 1px 3px rgba(0, 0, 0, 0.28);
+    0 2px 14px rgba(0, 0, 0, 0.32);
 }
 
 .whyfoshan-intro-lede {
@@ -2009,7 +2182,18 @@ button.resource:focus-visible {
 
 .whyfoshan-intro-lede .lede {
   margin-top: 0;
-  max-width: 40rem;
+  max-width: 38rem;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.whyfoshan-page .editorial-section__prose {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.whyfoshan-page .editorial-section__prose p + p {
+  margin-top: 1rem;
 }
 
 .editorial-flow {
@@ -2061,13 +2245,33 @@ button.resource:focus-visible {
   margin-top: 0.75rem;
 }
 
+@media (max-width: 719px) {
+  .whyfoshan-intro-hero::after {
+    background: linear-gradient(
+      90deg,
+      rgba(28, 25, 21, 0.88) 0%,
+      rgba(28, 25, 21, 0.72) 34%,
+      rgba(28, 25, 21, 0.4) 50%,
+      rgba(28, 25, 21, 0.12) 64%,
+      rgba(28, 25, 21, 0) 78%
+    );
+  }
+}
+
 @media (min-width: 720px) {
   .whyfoshan-intro-hero {
-    min-height: min(15.5rem, 34vh);
+    min-height: min(17rem, 38vh);
   }
 
   .whyfoshan-intro-hero__copy {
-    padding: 3.5rem max(1rem, calc((100vw - var(--wrap)) / 2 + 1rem)) 2rem;
+    max-width: 38rem;
+    padding: 2.35rem max(1rem, calc((100vw - var(--wrap)) / 2 + 1rem)) 2.35rem;
+  }
+
+  .whyfoshan-page .whyfoshan-hero-sub {
+    max-width: min(36rem, 100%);
+    font-size: 1.125rem;
+    line-height: 1.42;
   }
 
   .whyfoshan-intro-lede {
@@ -2150,6 +2354,17 @@ button.resource:focus-visible {
   line-height: 1.02;
 }
 
+.howtosource-page .intro .lede {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.howtosource-page .prose-block p,
+.howtosource-page .prose-block li {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
 .howtosource-page .prose-block {
   display: block;
   max-width: 38rem;
@@ -2197,6 +2412,13 @@ button.resource:focus-visible {
 .pricing-intro {
   max-width: 38rem;
   margin-top: 1.25rem;
+}
+
+.pricing-page .pricing-intro p,
+.pricing-page .pricing-section-lead,
+.pricing-page .pricing-prose p {
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 .pricing-intro .lede {
@@ -2347,8 +2569,8 @@ button.resource:focus-visible {
 }
 
 .pricing-prose--compact {
-  font-size: 0.98rem;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 .pricing-cta {
