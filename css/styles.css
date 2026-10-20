@@ -2529,11 +2529,34 @@ button.resource:focus-visible {
   padding-bottom: 1.5rem;
 }
 
+.whyfoshan-lede-title {
+  margin: 0 0 0.65rem;
+  max-width: 38rem;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3.2vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
 .whyfoshan-intro-lede .lede {
   margin-top: 0;
   max-width: 38rem;
   font-size: 1rem;
   line-height: 1.55;
+}
+
+.whyfoshan-intro-lede p:not(.lede) {
+  margin: 1rem 0 0;
+  max-width: 38rem;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.whyfoshan-intro-lede strong,
+.whyfoshan-page .editorial-section__prose strong {
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .whyfoshan-page .editorial-section__prose {
