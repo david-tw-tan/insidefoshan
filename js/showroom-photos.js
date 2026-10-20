@@ -62,6 +62,10 @@ window.SHOWROOM_PHOTOS = {
     {
       "src": "images/showroom-02_7.jpg",
       "alt": "Showroom photo 7 from Factory 2"
+    },
+    {
+      "src": "images/showroom-02_8.jpg",
+      "alt": "Showroom photo 8 from Factory 2"
     }
   ],
   "photos-factory-3-showroom": [
@@ -100,6 +104,10 @@ window.SHOWROOM_PHOTOS = {
     {
       "src": "images/showroom-03_9.jpg",
       "alt": "Showroom photo 9 from Factory 3"
+    },
+    {
+      "src": "images/showroom-03_10.jpg",
+      "alt": "Showroom photo 10 from Factory 3"
     }
   ],
   "photos-factory-4-showroom": [
@@ -138,6 +146,10 @@ window.SHOWROOM_PHOTOS = {
     {
       "src": "images/showroom-04_9.jpg",
       "alt": "Showroom photo 9 from Factory 4"
+    },
+    {
+      "src": "images/showroom-04_10.jpg",
+      "alt": "Showroom photo 10 from Factory 4"
     }
   ],
   "photos-factory-5-showroom": [
