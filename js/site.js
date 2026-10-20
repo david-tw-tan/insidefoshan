@@ -128,7 +128,7 @@ function setFactoryJumpOpen(open) {
     factoryJumpPanel.removeAttribute("hidden");
     if (menuToggle && siteNav) {
       menuToggle.setAttribute("aria-expanded", "false");
-      menuToggle.textContent = "Menu";
+      setMenuButtonLabel("Menu");
       siteNav.setAttribute("hidden", "");
     }
   } else {
@@ -136,11 +136,20 @@ function setFactoryJumpOpen(open) {
   }
 }
 
+function setMenuButtonLabel(text) {
+  if (!menuToggle) return;
+  const label = menuToggle.querySelector(".menu-float-label");
+  if (label) label.textContent = text;
+  else menuToggle.textContent = text;
+}
+
 function setMenuOpen(open) {
   if (!menuToggle || !siteNav) return;
   if (open) setFactoryJumpOpen(false);
   menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
-  menuToggle.textContent = open ? "Close" : "Menu";
+  setMenuButtonLabel(open ? "Close" : "Menu");
+  const icon = menuToggle.querySelector(".menu-float-icon");
+  if (icon) icon.hidden = open;
   if (open) siteNav.removeAttribute("hidden");
   else siteNav.setAttribute("hidden", "");
 }
@@ -435,7 +444,7 @@ function openPhotos(opener) {
   const photoDialog = getPhotoDialog();
   if (!lightbox || !photoDialog) {
     window.alert(
-      "Showroom gallery could not open on this page. Use the homepage (Furniture Catalogs) over a local web server—not by opening the HTML file directly—and hard-refresh (Shift+Reload) if you recently updated the site.",
+      "Showroom gallery could not open on this page. Use the homepage (Factory Catalogs) over a local web server—not by opening the HTML file directly—and hard-refresh (Shift+Reload) if you recently updated the site.",
     );
     return;
   }

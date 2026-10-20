@@ -1,0 +1,231 @@
+/* Homepage look v3 — original copy, photo-forward presentation. */
+
+@font-face {
+  font-family: Outfit;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/outfit-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Outfit;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../fonts/outfit-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Outfit;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("../fonts/outfit-latin-600-normal.woff2") format("woff2");
+}
+
+/* Slightly shorter hero so the first workshop arrives sooner */
+.home-v3.home-page .home-hero {
+  min-height: 12.25rem;
+}
+
+.home-v3.home-page .home-hero-copy {
+  padding: 1.5rem 1rem 1.65rem;
+}
+
+.home-v3.home-page .home-intro .home-copy {
+  margin-top: 1rem;
+}
+
+.home-v3.home-page .home-intro .home-copy p {
+  font-size: 1rem;
+}
+
+/* Workshops: quiet paper cards, not heavy rules */
+.home-v3.home-page {
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+  background: #f3f0ea;
+}
+
+.home-v3.home-page .home-intro {
+  background: var(--paper);
+}
+
+.home-v3.home-page .catalog-wrap {
+  padding-top: 0.75rem;
+  padding-bottom: 1.25rem;
+}
+
+.home-v3.home-page .factory {
+  margin-bottom: 0.85rem;
+  padding: 1.05rem 0.9rem 0.9rem;
+  border: 0;
+  border-top: 0;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(28, 25, 21, 0.08);
+}
+
+.home-v3.home-page .factory + .factory {
+  margin-top: 0;
+}
+
+.home-v3.home-page .factory-title {
+  font-size: clamp(1.42rem, 5.2vw, 2rem);
+  line-height: 1.08;
+}
+
+.home-v3.home-page .factory-count {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.home-v3.home-page .factory-desc {
+  max-width: 36rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+/* Lookbook rows: furniture photo leads, file meta recedes */
+.home-v3.home-page .resources > li + li .resource,
+.home-v3.home-page .resource {
+  border-top: 0;
+  padding: 0.35rem 0;
+}
+
+.home-v3.home-page .resource {
+  min-height: 0;
+  column-gap: 0.7rem;
+  align-items: center;
+}
+
+.home-v3.home-page .resource-open {
+  grid-template-columns: 5.25rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  min-height: 0;
+  padding: 0.35rem 0;
+}
+
+.home-v3.home-page .resource-thumb {
+  width: 5.25rem;
+  height: 5.25rem;
+  border: 1px solid rgba(28, 25, 21, 0.12);
+}
+
+.home-v3.home-page .resource-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.home-v3.home-page .resource-detail {
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.home-v3.home-page .resource-meta {
+  margin-top: 0.2rem;
+  color: rgba(28, 25, 21, 0.38);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.01em;
+}
+
+.home-v3.home-page .resource-action {
+  width: 2.15rem;
+  height: 2.15rem;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.home-v3.home-page .resource-action:hover,
+.home-v3.home-page .resource-action:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.home-v3.home-page .factory-gallery {
+  margin-top: 0.35rem;
+  padding-top: 0.65rem;
+}
+
+.home-v3.home-page .factory-gallery-link {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.home-v3.home-page .factory-gallery-glyph {
+  color: var(--ink);
+}
+
+.home-v3.home-page .catalog-modal-head h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.home-v3.home-page .home-page-note {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.home-v3.home-page .home-outro .next-steps .kicker {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.home-v3.home-page .home-outro .next-title {
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.home-v3.home-page .home-outro .next-text {
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.home-v3.home-page .home-outro .text-btn {
+  font-size: 1rem;
+}
+
+@media (max-width: 719px) {
+  .home-v3.home-page .resource-detail {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 720px) {
+  .home-v3.home-page .home-hero {
+    min-height: 14rem;
+  }
+
+  .home-v3.home-page .factory {
+    padding: 1.2rem 1.15rem 1rem;
+  }
+
+  .home-v3.home-page .resource-open {
+    grid-template-columns: 6.25rem minmax(0, 1fr);
+  }
+
+  .home-v3.home-page .resource-thumb {
+    width: 6.25rem;
+    height: 6.25rem;
+  }
+
+  .home-v3.home-page .resource-title {
+    font-size: 1.35rem;
+  }
+}

@@ -132,6 +132,13 @@ h2,
   position: relative;
 }
 
+.float-nav-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
 .factory-jump {
   display: none;
   position: relative;
@@ -143,25 +150,46 @@ h2,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.1rem;
-  margin: 0.42rem 0 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--muted);
-  font-family: var(--sans);
-  font-size: 0.78rem;
+  gap: 0.22rem;
+  margin: 0.28rem 0 0;
+  padding: 0.44rem 0.92rem 0.42rem;
+  border: 1px solid rgba(28, 25, 21, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  backdrop-filter: blur(12px) saturate(1.15);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-size: 0.72rem;
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.03em;
   white-space: nowrap;
   cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65) inset,
+    0 4px 18px rgba(28, 25, 21, 0.1);
   -webkit-tap-highlight-color: transparent;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .factory-jump-toggle {
+    background: rgba(255, 255, 255, 0.94);
+  }
 }
 
 .factory-jump-toggle:hover,
 .factory-jump-toggle:focus-visible {
-  color: var(--ink);
+  border-color: rgba(28, 25, 21, 0.22);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.factory-jump-toggle[aria-expanded="true"] {
+  border-color: rgba(28, 25, 21, 0.28);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 6px 22px rgba(28, 25, 21, 0.12);
 }
 
 .factory-jump-toggle:focus-visible {
@@ -177,7 +205,7 @@ h2,
 
 .factory-jump-panel {
   position: absolute;
-  top: calc(100% + 0.35rem);
+  top: calc(100% + 0.45rem);
   left: 50%;
   z-index: 2;
   transform: translateX(-50%);
@@ -186,12 +214,15 @@ h2,
   max-width: min(22rem, calc(100vw - 2.5rem));
   max-height: min(16.5rem, 52vh);
   margin: 0;
-  padding: 0.3rem 0;
+  padding: 0.35rem 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--paper);
-  border: 1px solid var(--ink);
-  box-shadow: 0 10px 28px rgba(28, 25, 21, 0.14);
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  backdrop-filter: blur(14px) saturate(1.1);
+  border: 1px solid rgba(28, 25, 21, 0.18);
+  border-radius: 0.65rem;
+  box-shadow: 0 12px 32px rgba(28, 25, 21, 0.14);
 }
 
 .factory-jump-panel[hidden] {
@@ -233,6 +264,10 @@ h2,
   white-space: normal;
 }
 
+.home-page.factory-jump-visible .factory-jump {
+  display: block;
+}
+
 @media (max-width: 719px) {
   .home-page .float-nav {
     display: grid;
@@ -241,26 +276,60 @@ h2,
     column-gap: 0.35rem;
   }
 
+  .home-page .float-nav-actions {
+    display: contents;
+  }
+
   .home-page.factory-jump-visible .factory-jump {
-    display: block;
+    grid-column: 2;
     justify-self: center;
   }
 
   .home-page .help-float {
+    grid-column: 3;
     justify-self: end;
   }
 }
 
+@media (min-width: 720px) {
+  .home-page .float-nav-actions {
+    margin-left: auto;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .home-page .factory-jump-toggle {
+    margin-top: 0.42rem;
+    padding: 0.4rem 0.82rem 0.38rem;
+    font-size: 0.68rem;
+  }
+
+  .home-page .factory-jump-panel {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+}
+
 .menu-float {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
   border: 0;
   background: var(--ink);
   color: var(--paper);
-  padding: 0.52rem 0.88rem 0.48rem;
+  padding: 0.48rem 0.48rem 0.46rem;
   font-family: var(--sans);
   font-size: 1.02rem;
   font-weight: 600;
   line-height: 1.2;
   cursor: pointer;
+}
+
+.menu-float-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
 }
 
 .menu-float:hover,
@@ -880,11 +949,43 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .page-help-line--stack .text-btn {
   display: block;
+}
+
+.text-btn--cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: clamp(1.08rem, 3.8vw, 1.22rem);
+  line-height: 1.3;
+  text-decoration-thickness: 1.5px;
+}
+
+.text-btn--cta:hover,
+.text-btn--cta:focus-visible {
+  color: var(--accent);
+}
+
+.text-btn-icon {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.text-btn--cta:hover .text-btn-icon,
+.text-btn--cta:focus-visible .text-btn-icon {
+  color: var(--accent);
+}
+
+.page-help-line--stack .text-btn--cta {
+  display: inline-flex;
 }
 
 .home-page-note strong {
@@ -906,9 +1007,6 @@ h1 {
     padding-top: 2.65rem;
   }
 
-  .home-page .site-footer {
-    margin-top: 1.75rem;
-  }
 }
 
 .footer-row {
@@ -1907,19 +2005,21 @@ button.resource:focus-visible {
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  min-width: 3.25rem;
-  min-height: 3.25rem;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.42);
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.95);
-  font-family: var(--sans);
-  font-size: 1.95rem;
-  font-weight: 400;
-  line-height: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+.lightbox-arrow-icon {
+  width: 1.85rem;
+  height: 1.85rem;
+  display: block;
 }
 
 .lightbox-arrow:hover,
@@ -1951,9 +2051,13 @@ button.resource:focus-visible {
   }
 
   .lightbox-arrow {
-    min-width: 3.75rem;
-    min-height: 3.75rem;
-    font-size: 2.25rem;
+    min-width: 4.1rem;
+    min-height: 4.1rem;
+  }
+
+  .lightbox-arrow-icon {
+    width: 2.15rem;
+    height: 2.15rem;
   }
 
   .lightbox-count {
@@ -2035,10 +2139,10 @@ button.resource:focus-visible {
 
 .home-page {
   --display: "DM Serif Display", Georgia, "Times New Roman", serif;
-  --sans: Inter, "Helvetica Neue", "Segoe UI", sans-serif;
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
   --label: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
   --catalog-title: color-mix(in srgb, var(--accent) 52%, var(--ink));
-  --factory-gallery: color-mix(in srgb, var(--accent) 40%, var(--muted));
+  --factory-gallery: color-mix(in srgb, var(--accent) 52%, var(--muted));
 }
 
 .home-page .home-intro h1,
@@ -2100,14 +2204,6 @@ button.resource:focus-visible {
 .home-page .resource-meta {
   margin-top: 0.14rem;
   color: rgba(28, 25, 21, 0.38);
-}
-
-.home-page .catalog-modal-head h2 {
-  color: var(--catalog-title);
-  font-family: var(--label);
-  font-weight: 600;
-  font-size: 1.35rem;
-  letter-spacing: -0.015em;
 }
 
 .home-page .home-intro h1 {
@@ -2189,7 +2285,7 @@ button.resource:focus-visible {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: min(20.5rem, 72vw);
+  max-width: 38rem;
   padding: 2.15rem 1rem 2.35rem;
   color: #fff;
 }
@@ -2227,6 +2323,10 @@ button.resource:focus-visible {
 }
 
 @media (max-width: 719px) {
+  .home-hero-copy {
+    max-width: min(20.5rem, 72vw);
+  }
+
   .home-hero::after {
     background: linear-gradient(
       90deg,
@@ -2281,6 +2381,13 @@ button.resource:focus-visible {
   text-underline-offset: 0.16em;
 }
 
+.footer-note a .link-out-icon {
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: 0.38em;
+  vertical-align: -0.12em;
+}
+
 .footer-note a:hover,
 .footer-note a:focus-visible {
   color: var(--footer-gold);
@@ -2308,14 +2415,19 @@ button.resource:focus-visible {
   }
 
   .home-hero-copy {
-    max-width: 38rem;
+    max-width: 40rem;
     padding: 2.35rem max(1rem, calc((100vw - var(--wrap)) / 2 + 1rem)) 2.35rem;
   }
 
   .home-page .home-hero .home-sub {
-    max-width: min(36rem, 100%);
+    max-width: 38rem;
     font-size: 1.125rem;
     line-height: 1.42;
+  }
+
+  .home-page .home-hero-copy {
+    width: 40rem;
+    max-width: 40rem;
   }
 
   .home-page .factory-count {
@@ -2327,14 +2439,14 @@ button.resource:focus-visible {
 
 .whyfoshan-page {
   --display: "DM Serif Display", Georgia, "Times New Roman", serif;
-  --sans: Inter, "Helvetica Neue", "Segoe UI", sans-serif;
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
   --label: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
 }
 
 .whyfoshan-page .kicker {
-  font-family: var(--label);
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }
 
 .intro--whyfoshan {
@@ -2381,7 +2493,7 @@ button.resource:focus-visible {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: min(20.5rem, 72vw);
+  max-width: 38rem;
   padding: 2.15rem 1rem 2.35rem;
   color: #fff;
 }
@@ -2483,6 +2595,10 @@ button.resource:focus-visible {
 }
 
 @media (max-width: 719px) {
+  .whyfoshan-intro-hero__copy {
+    max-width: min(20.5rem, 72vw);
+  }
+
   .whyfoshan-intro-hero::after {
     background: linear-gradient(
       90deg,
@@ -2500,15 +2616,17 @@ button.resource:focus-visible {
     min-height: min(17rem, 38vh);
   }
 
-  .whyfoshan-intro-hero__copy {
-    max-width: 38rem;
-    padding: 2.35rem max(1rem, calc((100vw - var(--wrap)) / 2 + 1rem)) 2.35rem;
+  .whyfoshan-page .whyfoshan-intro-hero__copy {
+    box-sizing: border-box;
+    width: 40rem;
+    max-width: 40rem;
+    padding: 2.35rem 2rem 2.35rem calc(var(--home-wrap-gutter) + var(--home-desktop-inset));
   }
 
   .whyfoshan-page .whyfoshan-hero-sub {
-    max-width: min(36rem, 100%);
+    max-width: 38rem;
     font-size: 1.125rem;
-    line-height: 1.42;
+    line-height: 1.4;
   }
 
   .whyfoshan-intro-lede {
@@ -2570,13 +2688,13 @@ button.resource:focus-visible {
 
 .howtosource-page {
   --display: "DM Serif Display", Georgia, "Times New Roman", serif;
-  --sans: Inter, "Helvetica Neue", "Segoe UI", sans-serif;
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
   --label: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
 }
 
 .howtosource-page .intro .kicker,
 .pricing-page .intro .kicker {
-  font-family: var(--label);
+  font-family: var(--sans);
   font-weight: 600;
   font-size: clamp(1.12rem, 4.8vw, 1.72rem);
   line-height: 1.08;
@@ -2636,7 +2754,7 @@ button.resource:focus-visible {
 
 .pricing-page {
   --display: "DM Serif Display", Georgia, "Times New Roman", serif;
-  --sans: Inter, "Helvetica Neue", "Segoe UI", sans-serif;
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
   --label: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
 }
 
@@ -2899,5 +3017,395 @@ button.resource:focus-visible {
 
   .pricing-table tbody td {
     white-space: normal;
+  }
+}
+
+/* Homepage look v3 — original copy, photo-forward presentation. */
+
+/* Slightly shorter hero so the first workshop arrives sooner */
+.home-page .home-hero {
+  min-height: 12.25rem;
+}
+
+.home-page .home-hero-copy {
+  padding: 1.5rem 1rem 1.65rem;
+}
+
+.home-page .home-intro .home-copy {
+  margin-top: 1rem;
+  padding-bottom: 1.45rem;
+}
+
+.home-page .home-intro .home-copy p:not(.home-intro-note) {
+  font-size: 1rem;
+}
+
+/* Site surface — cream field, white content bands */
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) {
+  --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+  --display: "DM Serif Display", Georgia, "Times New Roman", serif;
+  background: #f3f0ea;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .intro,
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .intro--whyfoshan {
+  background: var(--paper);
+}
+
+/* Section main columns: cream field (same as homepage catalog). Intro/header bands stay white above. */
+:is(.whyfoshan-page, .howtosource-page, .pricing-page) main.page > .wrap,
+:is(.whyfoshan-page, .howtosource-page, .pricing-page) .editorial-flow,
+:is(.whyfoshan-page, .howtosource-page, .pricing-page) .pricing-body {
+  padding-bottom: 1.35rem;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page {
+  padding-bottom: 2rem;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .site-footer {
+  margin-top: 1.75rem;
+}
+
+.home-page .home-intro {
+  background: var(--paper);
+}
+
+.home-page .catalog-wrap {
+  padding-top: 0.75rem;
+  padding-bottom: 1.1rem;
+}
+
+.home-page .factory {
+  margin-bottom: 0.85rem;
+  padding: 1.05rem 0.9rem 0.9rem;
+  border: 0;
+  border-top: 0;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(28, 25, 21, 0.08);
+}
+
+.home-page .factory + .factory {
+  margin-top: 0;
+}
+
+.home-page .factory-title {
+  font-size: clamp(1.42rem, 5.2vw, 2rem);
+  line-height: 1.08;
+}
+
+.home-page .factory-count {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.home-page .factory-desc {
+  max-width: 36rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+/* Lookbook rows: furniture photo leads, file meta recedes */
+.home-page .resources > li + li .resource,
+.home-page .resource {
+  border-top: 0;
+  padding: 0.35rem 0;
+}
+
+.home-page .resource {
+  min-height: 0;
+  column-gap: 0.7rem;
+  align-items: center;
+}
+
+.home-page .resource-open {
+  grid-template-columns: 5.25rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  min-height: 0;
+  padding: 0.35rem 0;
+}
+
+.home-page .resource-thumb {
+  width: 5.25rem;
+  height: 5.25rem;
+  border: 1px solid rgba(28, 25, 21, 0.12);
+}
+
+.home-page .resource-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.home-page .resource-detail {
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.home-page .resource-meta {
+  margin-top: 0.2rem;
+  color: rgba(28, 25, 21, 0.38);
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+.home-page .resource-action {
+  width: 2.15rem;
+  height: 2.15rem;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.home-page .resource-action:hover,
+.home-page .resource-action:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.home-page .factory-gallery {
+  margin-top: 0.35rem;
+  padding-top: 0.65rem;
+}
+
+.home-page .factory-gallery-link {
+  color: var(--factory-gallery);
+  font-weight: 600;
+}
+
+.home-page .factory-gallery-glyph {
+  color: var(--factory-gallery);
+}
+
+.home-page .factory-gallery-link:hover,
+.home-page .factory-gallery-link:focus-visible {
+  color: var(--accent);
+}
+
+.home-page .factory-gallery-link:hover .factory-gallery-glyph,
+.home-page .factory-gallery-link:focus-visible .factory-gallery-glyph {
+  color: inherit;
+}
+
+/* Modals — Outfit body, DM Serif titles (all main sections) */
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel {
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.65rem, 4.5vw, 2.05rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel > p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .contact-desc-lead {
+  font-weight: 600;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .contact-link {
+  font-family: var(--sans);
+  font-size: 1rem;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .contact-wa-note {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .email-disclosure summary {
+  font-size: 0.875rem;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .catalog-modal-head h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .catalog-modal-size {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  color: rgba(28, 25, 21, 0.38);
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .catalog-modal-detail {
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: rgba(28, 25, 21, 0.58);
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .catalog-download {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Showroom photo lightbox — homepage */
+.home-page .lightbox-bar {
+  font-family: var(--sans);
+}
+
+.home-page .lightbox-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.home-page .lightbox-count {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.home-page .lightbox-close--float,
+.home-page .lightbox-arrow {
+  font-family: var(--sans);
+}
+
+.home-page .home-page-note {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.home-page .home-intro .home-copy p.home-intro-note {
+  margin-top: 1.45rem;
+  margin-bottom: 0.15rem;
+  font-size: clamp(0.875rem, 3.5vw, 0.9375rem);
+  line-height: 1.44;
+  letter-spacing: 0.008em;
+}
+
+.home-page .home-intro-note-mark {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.home-page .home-intro-note-detail {
+  color: rgba(28, 25, 21, 0.48);
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .next-steps .kicker {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .next-title {
+  font-weight: 400;
+  font-size: clamp(1.38rem, 4.9vw, 1.92rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .next-text {
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page .page-help-line {
+  margin-top: 1.65rem;
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page .text-btn--cta {
+  font-size: clamp(1.14rem, 4.2vw, 1.32rem);
+}
+
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page .text-btn-icon {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+@media (max-width: 719px) {
+  .home-page .resource-detail {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 720px) {
+  :is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) {
+    --home-desktop-inset: clamp(1.35rem, 3.2vw, 2.75rem);
+    --home-wrap-width: min(calc(100vw - 2rem), var(--wrap));
+    --home-wrap-gutter: max(1rem, calc((100vw - var(--home-wrap-width)) / 2));
+  }
+
+  :is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page > .wrap,
+  :is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .editorial-flow,
+  :is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .pricing-body,
+  :is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .intro > .wrap,
+  :is(.whyfoshan-page) .whyfoshan-intro-lede {
+    padding-inline: var(--home-desktop-inset);
+  }
+
+  .home-page .home-hero {
+    min-height: 14rem;
+  }
+
+  .home-page .home-hero-copy {
+    box-sizing: border-box;
+    width: 40rem;
+    max-width: 40rem;
+    padding: 2.35rem 2rem 2.35rem calc(var(--home-wrap-gutter) + var(--home-desktop-inset));
+  }
+
+  .home-page .home-hero .home-sub {
+    max-width: 38rem;
+    font-size: 1.125rem;
+    line-height: 1.4;
+  }
+
+  .home-page .home-intro .home-copy,
+  .home-page .catalog-wrap {
+    padding-inline: var(--home-desktop-inset);
+  }
+
+  .home-page .home-intro .home-copy {
+    max-width: min(48rem, calc(var(--home-wrap-width) - 2 * var(--home-desktop-inset)));
+  }
+
+  .home-page .factory {
+    padding: 1.2rem 1.15rem 1rem;
+  }
+
+  .home-page .resource-open {
+    grid-template-columns: 6.25rem minmax(0, 1fr);
+  }
+
+  .home-page .resource-thumb {
+    width: 6.25rem;
+    height: 6.25rem;
+  }
+
+  .home-page .resource-title {
+    font-size: 1.35rem;
   }
 }
