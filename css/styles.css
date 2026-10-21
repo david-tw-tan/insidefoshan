@@ -494,8 +494,9 @@ a.help-btn {
   padding: 1.15rem 0 0;
 }
 
-.home-intro h1 {
+.home-intro .home-title {
   max-width: none;
+  font-family: var(--display);
   font-weight: 700;
   font-size: clamp(2.35rem, 8vw, 3.75rem);
   line-height: 1.02;
@@ -2191,7 +2192,7 @@ button.resource:focus-visible {
   --factory-gallery: color-mix(in srgb, var(--accent) 52%, var(--muted));
 }
 
-.home-page .home-intro h1,
+.home-page .home-intro .home-title,
 .home-page .factory-title {
   font-weight: 400;
 }
@@ -2252,7 +2253,7 @@ button.resource:focus-visible {
   color: rgba(28, 25, 21, 0.38);
 }
 
-.home-page .home-intro h1 {
+.home-page .home-intro .home-title {
   font-size: clamp(3rem, 10.5vw, 4.55rem);
   letter-spacing: -0.025em;
 }
@@ -2363,6 +2364,7 @@ button.resource:focus-visible {
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.45;
+  letter-spacing: 0;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.45),
     0 2px 14px rgba(0, 0, 0, 0.32);
@@ -3752,4 +3754,23 @@ button.resource:focus-visible {
   .home-page .resource-title {
     font-size: 1.35rem;
   }
+}
+
+.notfound-page .intro h1 {
+  max-width: 18ch;
+}
+
+.notfound-page .notfound-links {
+  max-width: 38rem;
+  margin-top: 0.5rem;
+}
+
+.notfound-page .notfound-links a {
+  color: var(--link);
+  text-underline-offset: 0.12em;
+}
+
+.notfound-page .notfound-links a:hover,
+.notfound-page .notfound-links a:focus-visible {
+  color: var(--accent);
 }

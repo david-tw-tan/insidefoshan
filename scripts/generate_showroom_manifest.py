@@ -26,12 +26,30 @@ MAPPING = {
     11: "S06",
 }
 
+FACTORY_LABELS = {
+    1: "Leading Italian Modern Factory",
+    2: "Fast-Rising Designer Furniture Factory",
+    3: "Renowned Opulent Luxury Factory",
+    4: "Humble Fashion House Factory",
+    5: "Mid-Century Modern Factory",
+    6: "Luxury Stone Table Factory",
+    7: "Chair Specialist Factory",
+    8: "Outdoor Furniture Specialist Factory",
+    9: "Handmade Mattress Factory",
+    10: "Handmade Rugs Factory",
+    11: "Bespoke Cabinetry Factory",
+}
+
 manifest: dict[str, list[dict[str, str]]] = {}
 for fid, prefix in MAPPING.items():
     key = f"photos-factory-{fid}-showroom"
     files = sorted(IMG.glob(f"showroom-{prefix}_*.jpg"))
+    label = FACTORY_LABELS[fid]
     manifest[key] = [
-        {"src": f"images/{p.name}", "alt": f"Showroom photo {i} from Factory {fid}"}
+        {
+            "src": f"images/{p.name}",
+            "alt": f"Showroom at {label} in Foshan, photo {i}",
+        }
         for i, p in enumerate(files, 1)
     ]
 
