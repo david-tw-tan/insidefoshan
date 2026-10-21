@@ -2948,6 +2948,11 @@ button.resource:focus-visible {
   color: var(--muted);
 }
 
+.factory-addresses-lede strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .factory-addresses-scroll {
   flex: 1 1 auto;
   min-height: 0;
