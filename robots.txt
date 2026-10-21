@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /prev_html_versions/
+Disallow: /factory-contacts/
+
+Sitemap: https://insidefoshan.com/sitemap.xml
