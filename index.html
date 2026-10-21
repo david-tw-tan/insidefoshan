@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/styles.css?v=site-v3-factory-jump2" />
+    <link rel="stylesheet" href="css/styles.css?v=site-v3-factory-jump-pad2" />
     <!-- showroom-manifest:auto -->
     <script>
     window.SHOWROOM_PHOTOS = {
@@ -968,7 +968,7 @@
         </div>
         <div class="page-help-line page-help-line--stack">
           <button class="text-btn text-btn--cta" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog"><svg class="text-btn-icon" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M4.25 4.75h11.5a1.25 1.25 0 0 1 1.25 1.25v6.25a1.25 1.25 0 0 1-1.25 1.25H9.1L5.75 16.75v-2.5H4.25a1.25 1.25 0 0 1-1.25-1.25V6a1.25 1.25 0 0 1 1.25-1.25z" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round"/><path d="M7 8.25h6M7 10.75h4" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/></svg><span>Ask Questions</span></button>
-          <button class="text-btn text-btn--cta" type="button" data-open-factory-contact aria-haspopup="dialog" aria-controls="factory-contact-dialog"><svg class="text-btn-icon" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M8.35 11.15 6.15 13.35a1.65 1.65 0 0 0 0 2.35l.35.35a1.65 1.65 0 0 0 2.35 0l2.2-2.2M11.65 11.15l2.2-2.2a1.65 1.65 0 0 1 2.35 0l.35.35a1.65 1.65 0 0 1 0 2.35l-2.2 2.2M9.15 10.85l1.7-1.7" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Want a Factory Intro?</span></button>
+          <button class="text-btn text-btn--cta" type="button" data-open-factory-addresses aria-haspopup="dialog" aria-controls="factory-addresses-dialog"><svg class="text-btn-icon text-btn-icon--pin" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M10 2.75a3.25 3.25 0 0 0-3.25 3.25c0 2.44 3.25 6.75 3.25 6.75s3.25-4.31 3.25-6.75A3.25 3.25 0 0 0 10 2.75z" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round"/><circle cx="10" cy="6" r="1.05" fill="currentColor"/></svg><span>Visit These Factories</span></button>
         </div>
       </section>
       </div>
@@ -1010,12 +1010,112 @@
         </div>
       </div>
     </div>
+    <div id="factory-addresses-modal" class="modal modal--dock modal--factory-addresses" hidden>
+      <button class="modal-backdrop" type="button" data-close-factory-addresses tabindex="-1" aria-label="Close dialog"></button>
+      <div id="factory-addresses-dialog" class="modal-panel factory-addresses-panel" role="dialog" aria-modal="true" aria-labelledby="factory-addresses-title" aria-describedby="factory-addresses-desc" tabindex="-1">
+        <button class="modal-close icon-close" type="button" data-close-factory-addresses aria-label="Close"><span aria-hidden="true">X</span></button>
+        <header class="factory-addresses-head">
+          <h2 id="factory-addresses-title">Factory Addresses</h2>
+          <p id="factory-addresses-desc" class="factory-addresses-lede">Planning your own factory visits in Foshan? Below are showroom addresses for the factories on this site.</p>
+        </header>
+        <div class="factory-addresses-scroll">
+          <ol class="factory-contacts-list factory-contacts-list--compact" aria-label="Factory showroom addresses in catalog order">
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">01</span>
+                <h3 class="factory-contact-title"><a href="#factory-1" data-close-factory-addresses>Leading Italian Modern Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市顺德区上华智能智造产业园D4栋西面一楼</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">02</span>
+                <h3 class="factory-contact-title"><a href="#factory-2" data-close-factory-addresses>Fast-Rising Designer Furniture Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市顺德区龙江镇万洋众创城2期14栋1-2层</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">03</span>
+                <h3 class="factory-contact-title"><a href="#factory-3" data-close-factory-addresses>Renowned Opulent Luxury Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市-顺德区-新桂路-和乐家居电商园</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">04</span>
+                <h3 class="factory-contact-title"><a href="#factory-4" data-close-factory-addresses>Humble Fashion House Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details">
+                <div><dt>Fashion House Styles</dt><dd lang="zh-CN">佛山市顺德区龙江镇龙江工业大道坦西段8号(5楼)</dd></div>
+                <div><dt>Italian Modern (and Pets!)</dt><dd lang="zh-CN">佛山市顺德区龙江镇325国道龙江段99号</dd></div>
+              </dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">05</span>
+                <h3 class="factory-contact-title"><a href="#factory-5" data-close-factory-addresses>Mid-Century Modern Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市顺德区龙江镇325国道</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">06</span>
+                <h3 class="factory-contact-title"><a href="#factory-6" data-close-factory-addresses>Luxury Stone Table Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">广佛商贸城G栋<br />佛山市南海区九江镇广佛商贸城</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">07</span>
+                <h3 class="factory-contact-title"><a href="#factory-7" data-close-factory-addresses>Chair Specialist Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">广东省佛山市顺德区龙高路北宝龙大厦B座三楼</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">08</span>
+                <h3 class="factory-contact-title"><a href="#factory-8" data-close-factory-addresses>Outdoor Furniture Specialist Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市顺德区乐从镇沙边村创富七路6号之一B7幢5楼</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">09</span>
+                <h3 class="factory-contact-title"><a href="#factory-9" data-close-factory-addresses>Handmade Mattress Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">广东省佛山市顺德区创富四路（联东U谷招商中心一期11-2栋5楼）</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">10</span>
+                <h3 class="factory-contact-title"><a href="#factory-10" data-close-factory-addresses>Handmade Rugs Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市顺德区上华大道4号上华智能智造园D3栋一楼</dd></div></dl>
+            </li>
+            <li class="factory-contact-card">
+              <div class="factory-contact-card__head">
+                <span class="factory-contact-idx" aria-hidden="true">11</span>
+                <h3 class="factory-contact-title"><a href="#factory-11" data-close-factory-addresses>Bespoke Cabinetry Factory</a></h3>
+              </div>
+              <dl class="factory-contact-details"><div><dt>Showroom address</dt><dd lang="zh-CN">佛山市-南海区-狮山镇小塘狮岭村321国道边公路北地段自编6号厂房之一</dd></div></dl>
+            </li>
+          </ol>
+        </div>
+        <footer class="factory-addresses-foot">
+          <p class="factory-addresses-foot-line">
+            <svg class="factory-addresses-foot-icon" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M8.35 11.15 6.15 13.35a1.65 1.65 0 0 0 0 2.35l.35.35a1.65 1.65 0 0 0 2.35 0l2.2-2.2M11.65 11.15l2.2-2.2a1.65 1.65 0 0 1 2.35 0l.35.35a1.65 1.65 0 0 1 0 2.35l-2.2 2.2M9.15 10.85l1.7-1.7" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="factory-addresses-foot-label">Need an Intro?</span> — <button type="button" class="factory-addresses-intro-link" data-open-factory-contact aria-haspopup="dialog" aria-controls="factory-contact-dialog">click here</button>
+          </p>
+        </footer>
+      </div>
+    </div>
     <div id="factory-contact-modal" class="modal modal--dock" hidden>
       <button class="modal-backdrop" type="button" data-close-factory-contact tabindex="-1" aria-label="Close dialog"></button>
       <div id="factory-contact-dialog" class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="factory-contact-title" aria-describedby="factory-contact-desc" tabindex="-1">
         <button class="modal-close icon-close" type="button" data-close-factory-contact aria-label="Close"><span aria-hidden="true">X</span></button>
-        <h2 id="factory-contact-title">Interested in contacting a factory?</h2>
-        <p id="factory-contact-desc">I’m happy to connect you with the furniture factories on this site. <strong>Serious inquiries only, please.</strong> These factories are very busy and selective about new inquiries, and they operate at different price points. To match you with the right factory, tell me a little about your project before I make an introduction.</p>
+        <h2 id="factory-contact-title">Want an Introduction?</h2>
+        <p id="factory-contact-desc">I’m happy to connect you with the furniture factories on this site. <strong>Serious inquiries only, please.</strong> These factories are busy and selective about new inquiries, and they operate at different price points. To match you with the right factory, tell me a little about your project before I make an introduction.</p>
         <a class="contact-link" href="https://wa.me/8618500507027?text=Hi%20%E2%80%94%20Inside%20Foshan%20factory%20introduction.%20" target="_blank" rel="noopener noreferrer">
           <span class="contact-link-label"><svg class="contact-link-icon" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M4.85 3.25h2.25c.48 0 .9.32 1.02.78l.58 2.12a1.02 1.02 0 0 1-.28 1l-1.22 1.18a.34.34 0 0 0-.07.4 9.1 9.1 0 0 0 4.79 4.79.34.34 0 0 0 .4-.07l1.18-1.22a1.02 1.02 0 0 1 1-.28l2.12.58c.46.12.78.54.78 1.02v2.25a1.05 1.05 0 0 1-1.05 1.05C8.55 16.75 3.25 11.45 3.25 5.3a1.05 1.05 0 0 1 1.05-1.05z" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round" /></svg>WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></span>
           <span class="contact-link-number">+86 185 0050 7027</span>
@@ -1067,6 +1167,6 @@
         </figure>
       </div>
     </div>
-    <script src="js/site.js?v=menu-icon-1"></script>
+    <script src="js/site.js?v=factory-jump-backdrop-2"></script>
   </body>
 </html>

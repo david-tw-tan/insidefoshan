@@ -209,14 +209,15 @@ h2,
   left: 50%;
   z-index: 2;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
   width: max-content;
   min-width: min(18.5rem, calc(100vw - 2.5rem));
   max-width: min(22rem, calc(100vw - 2.5rem));
-  max-height: min(16.5rem, 52vh);
+  max-height: min(17.5rem, 56vh);
   margin: 0;
-  padding: 0.35rem 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  padding: 0.35rem 0 0.85rem;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.96);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   backdrop-filter: blur(14px) saturate(1.1);
@@ -225,8 +226,37 @@ h2,
   box-shadow: 0 12px 32px rgba(28, 25, 21, 0.14);
 }
 
+.factory-jump-panel-list {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-bottom: 0.65rem;
+}
+
 .factory-jump-panel[hidden] {
   display: none !important;
+}
+
+.factory-jump-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 28;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(28, 25, 21, 0.48);
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.factory-jump-backdrop[hidden] {
+  display: none !important;
+}
+
+body.factory-jump-open {
+  overflow: hidden;
 }
 
 .factory-jump-item {
@@ -979,6 +1009,12 @@ h1 {
   color: var(--accent);
 }
 
+.text-btn-icon--pin {
+  width: 2.08rem;
+  height: 2.08rem;
+  margin: -0.12rem -0.08rem -0.12rem 0;
+}
+
 .text-btn--cta:hover .text-btn-icon,
 .text-btn--cta:focus-visible .text-btn-icon {
   color: var(--accent);
@@ -986,6 +1022,16 @@ h1 {
 
 .page-help-line--stack .text-btn--cta {
   display: inline-flex;
+}
+
+a.text-btn--cta {
+  text-decoration: none;
+}
+
+a.text-btn--cta:hover,
+a.text-btn--cta:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .home-page-note strong {
@@ -2707,6 +2753,275 @@ button.resource:focus-visible {
   }
 }
 
+/* Factory contacts (/factory-contacts/) */
+
+.factory-contacts-lede {
+  max-width: 38rem;
+}
+
+.factory-contacts-note {
+  max-width: 38rem;
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.factory-contacts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  max-width: 42rem;
+}
+
+.factory-contact-card {
+  margin: 0;
+  padding: 1rem 1rem 1.05rem;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(28, 25, 21, 0.08);
+}
+
+.factory-contact-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.factory-contact-idx {
+  flex-shrink: 0;
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.factory-contact-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 3.2vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.factory-contact-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.factory-contact-title a:hover,
+.factory-contact-title a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.factory-contact-details {
+  margin: 0;
+}
+
+.factory-contact-details > div + div {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.factory-contact-details dt {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.factory-contact-details dd {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.factory-contact-missing {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.factory-contacts-intro-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  max-width: 38rem;
+}
+
+.factory-contacts-intro-section h2 {
+  margin: 0 0 0.65rem;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.factory-contacts-intro-section p {
+  margin: 0 0 1rem;
+  line-height: 1.55;
+  max-width: 36rem;
+}
+
+.factory-contacts-list--compact {
+  gap: 0.72rem;
+}
+
+.factory-contacts-list--compact .factory-contact-card {
+  padding: 0.55rem 0.62rem 0.6rem;
+}
+
+.factory-contacts-list--compact .factory-contact-card__head {
+  margin-bottom: 0.45rem;
+  gap: 0.4rem;
+}
+
+.factory-contacts-list--compact .factory-contact-idx {
+  font-size: 0.68rem;
+}
+
+.factory-contacts-list--compact .factory-contact-details > div + div {
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+}
+
+.factory-contacts-list--compact .factory-contact-details dt {
+  margin-bottom: 0.15rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--faint);
+}
+
+.factory-contacts-list--compact .factory-contact-details dd {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.modal--factory-addresses {
+  place-items: end center;
+}
+
+.factory-addresses-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 36rem);
+  max-height: min(92dvh, 100%);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.factory-addresses-panel .modal-close {
+  z-index: 2;
+}
+
+.factory-addresses-head {
+  flex-shrink: 0;
+  padding: 1.05rem 2.35rem 0.65rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.factory-addresses-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 4.5vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.factory-addresses-lede {
+  margin: 0.4rem 0 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.factory-addresses-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.55rem 0.85rem 0.65rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.factory-addresses-panel .factory-contact-title {
+  font-family: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
+  font-size: clamp(0.82rem, 2.6vw, 0.9rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.factory-addresses-foot {
+  flex-shrink: 0;
+  padding: 1rem 1rem 1.1rem;
+  border-top: 1px solid rgba(28, 25, 21, 0.12);
+  background: color-mix(in srgb, var(--paper-deep) 55%, var(--paper));
+  text-align: center;
+}
+
+.factory-addresses-foot-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.25rem;
+  margin: 0;
+  font-size: clamp(0.96rem, 3.2vw, 1.05rem);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.factory-addresses-foot-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.factory-addresses-foot-label {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.factory-addresses-intro-link {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  cursor: pointer;
+}
+
+.factory-addresses-intro-link:hover,
+.factory-addresses-intro-link:focus-visible {
+  color: var(--accent);
+}
+
+@media (min-width: 720px) {
+  .factory-addresses-panel {
+    margin: 0 0 0.65rem;
+    border-bottom: 1px solid var(--ink);
+  }
+}
+
 /* Sourcing Tips (/howtosource/) — plain intro, scan-friendly section numbers */
 
 .howtosource-page {
@@ -3064,29 +3379,30 @@ button.resource:focus-visible {
 }
 
 /* Site surface — cream field, white content bands */
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) {
   --sans: Outfit, "Avenir Next", "Segoe UI", sans-serif;
   --display: "DM Serif Display", Georgia, "Times New Roman", serif;
   background: #f3f0ea;
 }
 
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .intro,
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .intro--whyfoshan {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .intro,
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .intro--whyfoshan {
   background: var(--paper);
 }
 
 /* Section main columns: cream field (same as homepage catalog). Intro/header bands stay white above. */
-:is(.whyfoshan-page, .howtosource-page, .pricing-page) main.page > .wrap,
-:is(.whyfoshan-page, .howtosource-page, .pricing-page) .editorial-flow,
-:is(.whyfoshan-page, .howtosource-page, .pricing-page) .pricing-body {
+:is(.whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) main.page > .wrap,
+:is(.whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .editorial-flow,
+:is(.whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .pricing-body,
+.factory-contacts-page .factory-contacts-body {
   padding-bottom: 1.35rem;
 }
 
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) main.page {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) main.page {
   padding-bottom: 2rem;
 }
 
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .site-footer {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .site-footer {
   margin-top: 1.75rem;
 }
 
@@ -3219,13 +3535,13 @@ button.resource:focus-visible {
 }
 
 /* Modals — Outfit body, DM Serif titles (all main sections) */
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .modal-panel {
   font-family: var(--sans);
   font-size: 1rem;
   line-height: 1.5;
 }
 
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel h2 {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .modal-panel h2 {
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(1.65rem, 4.5vw, 2.05rem);
@@ -3233,7 +3549,7 @@ button.resource:focus-visible {
   letter-spacing: -0.02em;
 }
 
-:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page) .modal-panel > p {
+:is(.home-page, .whyfoshan-page, .howtosource-page, .pricing-page, .factory-contacts-page) .modal-panel > p {
   font-size: 1rem;
   line-height: 1.5;
 }

@@ -120,12 +120,28 @@ const siteNav = document.querySelector("#site-nav");
 
 let factoryJumpToggle = null;
 let factoryJumpPanel = null;
+let factoryJumpBackdrop = null;
+
+function ensureFactoryJumpBackdrop() {
+  if (factoryJumpBackdrop) return factoryJumpBackdrop;
+  factoryJumpBackdrop = document.createElement("button");
+  factoryJumpBackdrop.type = "button";
+  factoryJumpBackdrop.className = "factory-jump-backdrop";
+  factoryJumpBackdrop.setAttribute("hidden", "");
+  factoryJumpBackdrop.setAttribute("aria-label", "Close factories menu");
+  factoryJumpBackdrop.addEventListener("click", () => setFactoryJumpOpen(false));
+  document.body.appendChild(factoryJumpBackdrop);
+  return factoryJumpBackdrop;
+}
 
 function setFactoryJumpOpen(open) {
   if (!factoryJumpToggle || !factoryJumpPanel) return;
   factoryJumpToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  const backdrop = ensureFactoryJumpBackdrop();
   if (open) {
     factoryJumpPanel.removeAttribute("hidden");
+    backdrop.removeAttribute("hidden");
+    document.body.classList.add("factory-jump-open");
     if (menuToggle && siteNav) {
       menuToggle.setAttribute("aria-expanded", "false");
       setMenuButtonLabel("Menu");
@@ -133,6 +149,8 @@ function setFactoryJumpOpen(open) {
     }
   } else {
     factoryJumpPanel.setAttribute("hidden", "");
+    backdrop.setAttribute("hidden", "");
+    document.body.classList.remove("factory-jump-open");
   }
 }
 
@@ -208,6 +226,10 @@ const factoryContactModal = document.querySelector("#factory-contact-modal");
 const factoryContactDialog = document.querySelector("#factory-contact-dialog");
 let factoryContactLastFocus = null;
 
+const factoryAddressesModal = document.querySelector("#factory-addresses-modal");
+const factoryAddressesDialog = document.querySelector("#factory-addresses-dialog");
+let factoryAddressesLastFocus = null;
+
 function contactFocusable() {
   if (!contactDialog) return [];
   return [...contactDialog.querySelectorAll("a[href], button:not([disabled])")];
@@ -244,7 +266,12 @@ function factoryContactFocusable() {
 
 function openFactoryContact() {
   if (!factoryContactModal || !factoryContactDialog || !factoryContactModal.hasAttribute("hidden")) return;
-  factoryContactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  if (factoryAddressesModal && !factoryAddressesModal.hasAttribute("hidden")) {
+    factoryAddressesModal.setAttribute("hidden", "");
+    factoryContactLastFocus = factoryAddressesLastFocus;
+  } else {
+    factoryContactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  }
   factoryContactModal.removeAttribute("hidden");
   document.body.classList.add("modal-open");
   factoryContactDialog.focus();
@@ -253,8 +280,35 @@ function openFactoryContact() {
 function closeFactoryContact() {
   if (!factoryContactModal || factoryContactModal.hasAttribute("hidden")) return;
   factoryContactModal.setAttribute("hidden", "");
-  document.body.classList.remove("modal-open");
+  if (
+    (!factoryAddressesModal || factoryAddressesModal.hasAttribute("hidden")) &&
+    (!contactModal || contactModal.hasAttribute("hidden")) &&
+    (!catalogModal || catalogModal.hasAttribute("hidden"))
+  ) {
+    document.body.classList.remove("modal-open");
+  }
   factoryContactLastFocus?.focus();
+}
+
+function openFactoryAddresses() {
+  if (!factoryAddressesModal || !factoryAddressesDialog || !factoryAddressesModal.hasAttribute("hidden")) return;
+  factoryAddressesLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  factoryAddressesModal.removeAttribute("hidden");
+  document.body.classList.add("modal-open");
+  factoryAddressesDialog.focus();
+}
+
+function closeFactoryAddresses() {
+  if (!factoryAddressesModal || factoryAddressesModal.hasAttribute("hidden")) return;
+  factoryAddressesModal.setAttribute("hidden", "");
+  if (
+    (!factoryContactModal || factoryContactModal.hasAttribute("hidden")) &&
+    (!contactModal || contactModal.hasAttribute("hidden")) &&
+    (!catalogModal || catalogModal.hasAttribute("hidden"))
+  ) {
+    document.body.classList.remove("modal-open");
+  }
+  factoryAddressesLastFocus?.focus();
 }
 
 const catalogModal = document.querySelector("#catalog-modal");
@@ -509,6 +563,15 @@ document.addEventListener("click", (event) => {
     }
   }
 
+  if (target.closest("[data-open-factory-addresses]")) {
+    event.preventDefault();
+    openFactoryAddresses();
+    return;
+  }
+  if (target.closest("[data-close-factory-addresses]")) {
+    closeFactoryAddresses();
+    return;
+  }
   if (target.closest("[data-open-factory-contact]")) {
     event.preventDefault();
     openFactoryContact();
@@ -544,6 +607,10 @@ function initFactoryJump() {
   const articles = [...document.querySelectorAll("article.factory[id]")];
   if (!articles.length) return;
 
+  const factoryJumpList = document.createElement("div");
+  factoryJumpList.className = "factory-jump-panel-list";
+  factoryJumpPanel.appendChild(factoryJumpList);
+
   articles.forEach((article, index) => {
     const heading = article.querySelector(".factory-title");
     if (!heading) return;
@@ -558,7 +625,7 @@ function initFactoryJump() {
     item.dataset.factoryJump = `#${article.id}`;
     item.innerHTML = `<span class="factory-jump-idx">${index + 1}</span><span class="factory-jump-name"></span>`;
     item.querySelector(".factory-jump-name").textContent = name;
-    factoryJumpPanel.appendChild(item);
+    factoryJumpList.appendChild(item);
   });
 
   factoryJumpToggle.addEventListener("click", (event) => {
@@ -604,6 +671,11 @@ function initFactoryJump() {
 initFactoryJump();
 initPricingGate();
 
+if (factoryAddressesModal && new URLSearchParams(window.location.search).has("factory-contacts")) {
+  window.history.replaceState({}, "", window.location.pathname + window.location.hash);
+  openFactoryAddresses();
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     if (factoryJumpToggle?.getAttribute("aria-expanded") === "true") {
@@ -623,6 +695,11 @@ document.addEventListener("keydown", (event) => {
     if (factoryContactModal && !factoryContactModal.hasAttribute("hidden")) {
       event.preventDefault();
       closeFactoryContact();
+      return;
+    }
+    if (factoryAddressesModal && !factoryAddressesModal.hasAttribute("hidden")) {
+      event.preventDefault();
+      closeFactoryAddresses();
       return;
     }
     if (contactModal && !contactModal.hasAttribute("hidden")) {
