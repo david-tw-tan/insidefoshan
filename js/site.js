@@ -20,6 +20,23 @@ function linkHrefIsPricing(href) {
   }
 }
 
+function trackEvent(name, data) {
+  const umami = window.umami;
+  if (!umami || typeof umami.track !== "function") return;
+  if (data && Object.keys(data).length) umami.track(name, data);
+  else umami.track(name);
+}
+
+function catalogLabel(opener) {
+  if (!(opener instanceof HTMLElement)) return "";
+  const title = (opener.dataset.title || "").trim();
+  const factory = opener.closest("article.factory");
+  const match = factory?.id?.match(/^factory-(\d+)$/);
+  const num = match ? match[1].padStart(2, "0") : "";
+  if (num && title) return `${num} ${title}`;
+  return title;
+}
+
 function catalogsHomeHref() {
   const path = window.location.pathname;
   if (path.includes("/whyfoshan/") || path.includes("/howtosource/") || path.includes("/pricing/")) {
@@ -242,11 +259,16 @@ function contactTitleForOpener(opener) {
   return "Got questions?";
 }
 
+function contactButtonName(opener) {
+  return contactTitleForOpener(opener) === "Need more help?" ? "More Help" : "Ask Questions";
+}
+
 function openContact(opener) {
   if (!contactModal || !contactDialog || !contactModal.hasAttribute("hidden")) return;
   contactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   const titleEl = contactDialog.querySelector("#contact-title");
   if (titleEl) titleEl.textContent = contactTitleForOpener(opener);
+  trackEvent("contact_modal_open", { button: contactButtonName(opener) });
   contactModal.removeAttribute("hidden");
   document.body.classList.add("modal-open");
   contactDialog.focus();
@@ -272,6 +294,7 @@ function openFactoryContact() {
   } else {
     factoryContactLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   }
+  trackEvent("factory_intro_modal_open");
   factoryContactModal.removeAttribute("hidden");
   document.body.classList.add("modal-open");
   factoryContactDialog.focus();
@@ -293,6 +316,7 @@ function closeFactoryContact() {
 function openFactoryAddresses() {
   if (!factoryAddressesModal || !factoryAddressesDialog || !factoryAddressesModal.hasAttribute("hidden")) return;
   factoryAddressesLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  trackEvent("factory_addresses_modal_open");
   factoryAddressesModal.removeAttribute("hidden");
   document.body.classList.add("modal-open");
   factoryAddressesDialog.focus();
@@ -335,6 +359,11 @@ function openCatalog(opener) {
   detail.textContent = opener.dataset.detail || "";
   download.href = opener.dataset.href || "#";
   download.setAttribute("download", opener.dataset.download || "");
+  const label = catalogLabel(opener);
+  if (label) {
+    download.dataset.catalogLabel = label;
+    trackEvent("catalog_preview", { catalog: label });
+  }
   catalogLastFocus = opener;
   revealOverlay(catalogModal);
   document.body.classList.add("modal-open");
@@ -586,6 +615,26 @@ document.addEventListener("click", (event) => {
 
   const catalogOpener = target.closest("[data-open-catalog]");
   if (catalogOpener instanceof HTMLElement) openCatalog(catalogOpener);
+
+  const catalogDownload = target.closest(".resource-action, .catalog-download");
+  if (catalogDownload instanceof HTMLAnchorElement) {
+    let label = catalogDownload.dataset.catalogLabel || "";
+    if (!label) {
+      const rowOpener = catalogDownload.closest(".resource")?.querySelector("[data-open-catalog]");
+      if (rowOpener instanceof HTMLElement) label = catalogLabel(rowOpener);
+    }
+    if (label) trackEvent("catalog_download", { catalog: label });
+  }
+
+  const beyondLink = target.closest(".site-footer a[href]");
+  if (beyondLink instanceof HTMLAnchorElement) {
+    try {
+      const host = new URL(beyondLink.href).hostname.replace(/^www\./, "");
+      if (host === "beyondshowrooms.com") trackEvent("beyond_showrooms_click");
+    } catch {
+      /* ignore malformed footer links */
+    }
+  }
   if (target.closest("[data-close-catalog]")) closeCatalog();
 
   if (target.closest("[data-close-lightbox]")) {
