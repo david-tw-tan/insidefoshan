@@ -1617,14 +1617,14 @@ a.text-btn--cta:focus-visible {
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  width: 1.65rem;
-  height: 1.65rem;
+  width: 2.8rem;
+  height: 2.8rem;
   color: var(--ink);
 }
 
 .factory-gallery-icon {
-  width: 1.45rem;
-  height: 1.45rem;
+  width: 2.45rem;
+  height: 2.45rem;
 }
 
 .factory-gallery-phrase {

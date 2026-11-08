@@ -112,7 +112,7 @@ document.querySelectorAll("[data-open-catalog]").forEach((opener) => {
   if (detailEl) detailEl.textContent = opener.dataset.detail || "";
 });
 
-const SHOWROOM_GALLERY_LABEL = "See real showroom photos";
+const SHOWROOM_GALLERY_LABEL = "See my showroom photos";
 
 function syncShowroomGalleryLabels() {
   const manifest = window.SHOWROOM_PHOTOS;
@@ -125,7 +125,7 @@ function syncShowroomGalleryLabels() {
     const label = btn.querySelector(".factory-gallery-label");
     if (label) label.textContent = SHOWROOM_GALLERY_LABEL;
     const hint = btn.querySelector(".visually-hidden");
-    if (hint) hint.textContent = `Open actual showroom photo gallery, ${n} photos`;
+    if (hint) hint.textContent = `Open my showroom photo gallery, ${n} photos`;
   });
 }
 
