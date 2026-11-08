@@ -123,9 +123,11 @@ function syncShowroomGalleryLabels() {
     if (!Array.isArray(list) || !list.length) return;
     const n = list.length;
     const label = btn.querySelector(".factory-gallery-label");
+    const countEl = btn.querySelector(".factory-gallery-count");
     if (label) label.textContent = SHOWROOM_GALLERY_LABEL;
+    if (countEl) countEl.textContent = `(${n})`;
     const hint = btn.querySelector(".visually-hidden");
-    if (hint) hint.textContent = `Open my showroom photo gallery, ${n} photos`;
+    if (hint) hint.textContent = "Open my showroom photo gallery";
   });
 }
 

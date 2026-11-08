@@ -1630,13 +1630,18 @@ a.text-btn--cta:focus-visible {
 .factory-gallery-phrase {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.28rem;
+  gap: 0.35rem;
   min-width: 0;
 }
 
 .factory-gallery-label {
   flex: none;
   min-width: 0;
+}
+
+.factory-gallery-count {
+  flex: none;
+  font-variant-numeric: tabular-nums;
 }
 
 .factory-gallery-arrow {
